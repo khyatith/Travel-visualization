@@ -49,13 +49,13 @@ var svg = d3.select("body").append("svg")
 
  var flag = {
 
-                "vacation": 'http://icons.iconarchive.com/icons/visualpharm/vacation/256/beach-chair-icon.png',
+                "vacation": 'resources/images/vacation.png',
 
-                "visit_friends": 'http://boomeranger.com/media/images/friends.png',
+                "visit_friends": 'resources/images/visit_friends.png',
 
-                "business": 'http://www.onlinebusiness.newstipstricks.com/wp-content/uploads/2013/12/Small-Changes-Can-Make-A-Big-Difference-In-Your-Business.png',
+                "business": 'resources/images/business.png',
 
-                "education": 'https://www.ahoona.com/assets/img/categories/CategoryImages/education.png',
+                "education": 'resources/images/education.png',
                 }
 
 
@@ -93,14 +93,13 @@ var svg = d3.select("body").append("svg")
                     .attr("xlink:href", function(d) {
                     var purpose_percentage = [["vacation", d.y2011.vacation], ["visit friends", d.y2011["visit friends"]], ["business", d.y2011.business], ["education", d.y2011.education]];
                     purpose_percentage.sort(function(a, b){return b[1]-a[1]});
-                    console.log(purpose_percentage);
                     return flag[purpose_percentage[0][0]];
                 })
                     .attr("x", function (d) {
-                        return projection([d.lon, d.lat])[0];
+                        return projection([d.lon, d.lat])[0]-11;
                     })
                     .attr("y", function (d) {
-                        return projection([d.lon, d.lat])[1];
+                        return projection([d.lon, d.lat])[1]-30;
                     })
                     .attr("width", "30")
                     .attr("height", "30");
