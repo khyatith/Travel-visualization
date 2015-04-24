@@ -47,35 +47,65 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
+ var flag = {
 
-d3.json("readme-world.json", function(error, world) {
-  var countries = topojson.feature(world, world.objects.countries).features,
-      neighbors = topojson.neighbors(world.objects.countries.geometries);
+                "vacation": 'http://icons.iconarchive.com/icons/visualpharm/vacation/256/beach-chair-icon.png',
 
-  svg.selectAll(".country")
-      .data(countries)
-    .enter().insert("path", ".graticule")
-      .attr("class", "country")
-      .attr("d", path)
-      //.style("fill", function(d, i) { return color(d.color = d3.max(neighbors[i], function(n) { return countries[n].color; }) + 1 | 0); });
+                "visit_friends": 'http://boomeranger.com/media/images/friends.png',
 
-      d3.json("final_json.json",function(error,data){
-        svg.selectAll("circle")
-        .data(data)
-          .enter()
-          .append("circle")
-        .attr("cx",function(d){
-          return projection([d.lon,d.lat])[0];
-      })
-        .attr("cy",function(d){
-          return projection([d.lon,d.lat])[1];
-      })
-        .attr("r",function(d){
-          return d.y2006.population/100;
-        })
-        .style("fill", "red")
-      });
-});
+                "business": 'http://www.onlinebusiness.newstipstricks.com/wp-content/uploads/2013/12/Small-Changes-Can-Make-A-Big-Difference-In-Your-Business.png',
+
+                "education": 'https://www.ahoona.com/assets/img/categories/CategoryImages/education.png',
+                }
+
+
+        d3.json("readme-world.json", function (error, world) {
+            var countries = topojson.feature(world, world.objects.countries).features,
+                neighbors = topojson.neighbors(world.objects.countries.geometries);
+
+            svg.selectAll(".country")
+                .data(countries)
+                .enter().insert("path", ".graticule")
+                .attr("class", "country")
+                .attr("d", path)
+                //.style("fill", function(d, i) { return color(d.color = d3.max(neighbors[i], function(n) { return countries[n].color; }) + 1 | 0); });
+
+            d3.json("final_json.json", function (error, data) {
+                svg.selectAll("circle")
+                    .data(data)
+                    .enter()
+                    .append("circle")
+                    .attr("cx", function (d) {
+                        return projection([d.lon, d.lat])[0];
+                    })
+                    .attr("cy", function (d) {
+                        return projection([d.lon, d.lat])[1];
+                    })
+                    .attr("r", function (d) {
+                        return d.y2011.population / 100;
+                    })
+                    .style("fill", "red");
+                //draw the purpose flag
+                svg.selectAll("image")
+                    .data(data)
+                    .enter()
+                    .append("image")
+                    .attr("xlink:href", function(d) {
+                    var purpose_percentage = [["vacation", d.y2011.vacation], ["visit friends", d.y2011["visit friends"]], ["business", d.y2011.business], ["education", d.y2011.education]];
+                    purpose_percentage.sort(function(a, b){return b[1]-a[1]});
+                    console.log(purpose_percentage);
+                    return flag[purpose_percentage[0][0]];
+                })
+                    .attr("x", function (d) {
+                        return projection([d.lon, d.lat])[0];
+                    })
+                    .attr("y", function (d) {
+                        return projection([d.lon, d.lat])[1];
+                    })
+                    .attr("width", "30")
+                    .attr("height", "30");
+            });
+        });
 
 </script>
 
