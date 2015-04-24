@@ -245,8 +245,8 @@
 	},
 	{
 	"name": "Chile",
-		"lat":-27.11,
-		"lon":-109.36,
+		"lat":-30.11,
+		"lon":-71.36,
         "y2006": {
             "population": 110,
             "vacation": null,
@@ -1035,5 +1035,615 @@
             "business": 38,
             "education": 14
         }
-	}	
+	},
+	{
+	"name": "Spain",
+		"lat":"40.463",
+		"lon":"-3.7492",
+        "y2006": {
+            "population": 424,
+            "vacation": null,
+            "visit friends": null,
+            "business":null,
+            "education": null
+        },
+        "y2007": {
+            "population": 516,
+			"vacation": 56,
+            "visit friends": 22,
+            "business":16,
+            "education": 3
+        },
+        "y2008": {
+            "population":658,
+            "vacation": 66,
+            "visit friends": 16,
+            "business":11,
+            "education": 7
+        },
+        "y2009": {
+            "population": 597,
+            "vacation": 63,
+            "visit friends": 16,
+            "business":8,
+            "education": 12
+        },
+        "y2010": {
+            "population": 640,
+            "vacation": 60,
+            "visit friends": 17,
+            "business":12,
+            "education": 5
+        },
+        "y2011": {
+			"population":700,
+            "vacation": 65,
+            "visit friends": 18,
+            "business":9,
+            "education": 6
+        },
+        "y2012": {
+            "population": 607,
+            "vacation": 57,
+            "visit friends": 16,
+            "business": 11,
+            "education": 7
+        },
+        "y2013": {
+            "population": 620,
+            "vacation": 55,
+            "visit friends": 23,
+            "business": 10,
+            "education": 8
+        }
+	},	
+	{
+	"name": "Sweden",
+		"lat":"60.128",
+		"lon":"18.643",
+        "y2006": {
+            "population": 286,
+            "vacation": null,
+            "visit friends": null,
+            "business":null,
+            "education": null
+        },
+        "y2007": {
+            "population": 337,
+			"vacation": 36,
+            "visit friends": 27,
+            "business":28,
+            "education": 5
+        },
+        "y2008": {
+            "population":397,
+            "vacation": 49,
+            "visit friends": 19,
+            "business":27,
+            "education": 5
+        },
+        "y2009": {
+            "population": 324,
+            "vacation": 47,
+            "visit friends": 24,
+            "business":21,
+            "education": 4
+        },
+        "y2010": {
+            "population": 372,
+            "vacation": null,
+            "visit friends": null,
+            "business":null,
+            "education": null
+        },
+        "y2011": {
+			"population":439,
+            "vacation": 49,
+            "visit friends": 21,
+            "business":19,
+            "education": 7
+        },
+        "y2012": {
+            "population": 442,
+            "vacation": 58,
+            "visit friends": 20,
+            "business": 10,
+            "education": 10
+        },
+        "y2013": {
+            "population": 477,
+            "vacation": 55,
+            "visit friends": 21,
+            "business": 9,
+            "education": 8
+        }
+	},
+	{
+	"name": "Switzerland",
+		"lat":"46.818",
+		"lon":"8.227",
+        "y2006": {
+            "population": 271,
+            "vacation": null,
+            "visit friends": null,
+            "business":null,
+            "education": null
+        },
+        "y2007": {
+            "population": 296,
+			"vacation": null,
+            "visit friends": null,
+            "business":null,
+            "education": null
+        },
+        "y2008": {
+            "population":342,
+            "vacation": 43,
+            "visit friends": 22,
+            "business":27,
+            "education": 2
+        },
+        "y2009": {
+            "population": 356,
+            "vacation": 49,
+            "visit friends": 18,
+            "business":19,
+            "education": 7
+        },
+        "y2010": {
+            "population": 391,
+            "vacation": 59,
+            "visit friends": 20,
+            "business":14,
+            "education": 8
+        },
+        "y2011": {
+			"population":477,
+            "vacation": 62,
+            "visit friends": 17,
+            "business":11,
+            "education": 8
+        },
+        "y2012": {
+            "population": 477,
+            "vacation": 66,
+            "visit friends": 11,
+            "business": 10,
+            "education": 6
+        },
+        "y2013": {
+            "population": 473,
+            "vacation": 64,
+            "visit friends": 15,
+            "business": 10,
+            "education": 7
+        }
+	},
+	{
+	"name": "Taiwan",
+		"lat":"23.97",
+		"lon":"120.96",
+        "y2006": {
+            "population": 300,
+            "vacation": 23,
+            "visit friends": 25,
+            "business":37,
+            "education": 9
+        },
+        "y2007": {
+            "population": 311,
+			"vacation": 27,
+            "visit friends": 29,
+            "business":32,
+            "education": 7
+        },
+        "y2008": {
+            "population":295,
+            "vacation": 26,
+            "visit friends": 25,
+            "business":36,
+            "education": 7
+        },
+        "y2009": {
+            "population": 240,
+            "vacation": 28,
+            "visit friends": 22,
+            "business":33,
+            "education": 9
+        },
+        "y2010": {
+            "population": 291,
+            "vacation": 30,
+            "visit friends": 23,
+            "business":32,
+            "education": 10
+        },
+        "y2011": {
+			"population":290,
+            "vacation": 35,
+            "visit friends": 24,
+            "business":30,
+            "education": 7
+        },
+        "y2012": {
+            "population": 290,
+            "vacation": 35,
+            "visit friends": 25,
+            "business": 22,
+            "education": 10
+        },
+        "y2013": {
+            "population": 385,
+            "vacation": 37,
+            "visit friends": 26,
+            "business": 21,
+            "education": 10
+        }
+	},
+	{
+	"name": "United Kingdom",
+		"lat":"55.378",
+		"lon":"-3.435",
+        "y2006": {
+            "population": 4176,
+            "vacation": 63,
+            "visit friends": 11,
+            "business":22,
+            "education": 2
+        },
+        "y2007": {
+            "population": 4498,
+			"vacation": 58,
+            "visit friends": 22,
+            "business":17,
+            "education": 2
+        },
+        "y2008": {
+            "population":4565,
+            "vacation": 59,
+            "visit friends": 17,
+            "business":20,
+            "education": 3
+        },
+        "y2009": {
+            "population": 3899,
+            "vacation": 62,
+            "visit friends": 18,
+            "business":17,
+            "education": 2
+        },
+        "y2010": {
+            "population": 3851,
+            "vacation": 63,
+            "visit friends": 20,
+            "business":14,
+            "education": 3
+        },
+        "y2011": {
+			"population":3835,
+            "vacation": 60,
+            "visit friends": 22,
+            "business":15,
+            "education": 4
+        },
+        "y2012": {
+            "population": 3763,
+            "vacation": 63,
+            "visit friends": 18,
+            "business": 11,
+            "education": 5
+        },
+        "y2013": {
+            "population": 3835,
+            "vacation": 64,
+            "visit friends": 26,
+            "business": 21,
+            "education": 10
+        }
+	},
+	{
+	"name": "Venezuela",
+		"lat":"10.5",
+		"lon":"-66.966",
+        "y2006": {
+            "population": 369,
+            "vacation": null,
+            "visit friends": null,
+            "business":null,
+            "education": null
+        },
+        "y2007": {
+            "population": 459,
+			"vacation": null,
+            "visit friends": null,
+            "business":null,
+            "education": null
+        },
+        "y2008": {
+            "population":507,
+            "vacation": null,
+            "visit friends": null,
+            "business":null,
+            "education": null
+        },
+        "y2009": {
+            "population": 507,
+            "vacation": 60,
+            "visit friends": 22,
+            "business":7,
+            "education": 4
+        },
+        "y2010": {
+            "population": 492,
+            "vacation": 64,
+            "visit friends": 41,
+            "business":18,
+            "education": 3
+        },
+        "y2011": {
+			"population":561,
+            "vacation": 65,
+            "visit friends": 47,
+            "business":19,
+            "education": 7
+        },
+        "y2012": {
+            "population": 675,
+            "vacation": 59,
+            "visit friends": 16,
+            "business": 13,
+            "education": 12
+        },
+        "y2013": {
+            "population": null,
+			"vacation": null,
+            "visit friends": null,
+            "business":null,
+            "education": null
+        }
+	},
+	{
+	"name": "South Africa",
+		"lat":"-30.55",
+		"lon":"22.937",
+        "y2006": {
+            "population": 89,
+            "vacation": null,
+            "visit friends": null,
+            "business":null,
+            "education": null
+        },
+        "y2007": {
+            "population": 94,
+			"vacation": null,
+            "visit friends": null,
+            "business":null,
+            "education": null
+        },
+        "y2008": {
+            "population":94,
+            "vacation": null,
+            "visit friends": null,
+            "business":null,
+            "education": null
+        },
+        "y2009": {
+            "population": 79,
+            "vacation": null,
+            "visit friends": null,
+            "business":null,
+            "education": null
+        },
+        "y2010": {
+            "population": 80,
+            "vacation": 30,
+            "visit friends": 25,
+            "business":31,
+            "education": 9
+        },
+        "y2011": {
+			"population":87,
+            "vacation": 27,
+            "visit friends": 23,
+            "business":37,
+            "education": 8
+        },
+        "y2012": {
+            "population": 89,
+            "vacation": 33,
+            "visit friends": 18,
+            "business": 21,
+            "education": 8
+        },
+        "y2013": {
+            "population": null,
+			"vacation": null,
+            "visit friends": null,
+            "business":null,
+            "education": null
+        }
+	},
+	{
+	"name": "Ireland",
+		"lat":"53.412",
+		"lon":"-8.2438",
+        "y2006": {
+            "population": 414,
+            "vacation": 62,
+            "visit friends": 23,
+            "business":11,
+            "education": 2
+        },
+        "y2007": {
+            "population": 491,
+			"vacation": 68,
+            "visit friends": 15,
+            "business":15,
+            "education": 2
+        },
+        "y2008": {
+            "population":531,
+            "vacation": 65,
+            "visit friends": 20,
+            "business":11,
+            "education": 3
+        },
+        "y2009": {
+            "population": 411,
+            "vacation": 60,
+            "visit friends": 22,
+            "business":14,
+            "education": 4
+        },
+        "y2010": {
+            "population": 360,
+            "vacation":null,
+            "visit friends": null,
+            "business":null,
+            "education":null
+        },
+        "y2011": {
+			"population":347,
+            "vacation": 61,
+            "visit friends": 23,
+            "business":11,
+            "education": 2
+        },
+        "y2012": {
+            "population": null,
+            "vacation":null,
+            "visit friends": null,
+            "business":null,
+            "education":null
+        },
+        "y2013": {
+            "population": null,
+			"vacation": null,
+            "visit friends": null,
+            "business":null,
+            "education": null
+        }
+	},
+	{
+	"name": "Poland",
+		"lat":"51.919",
+		"lon":"19.145",
+        "y2006": {
+            "population": 138,
+            "vacation":null,
+            "visit friends": null,
+            "business":null,
+            "education":null
+        },
+        "y2007": {
+            "population":139,
+			"vacation":null,
+            "visit friends": null,
+            "business":null,
+            "education":null
+        },
+        "y2008": {
+            "population":147,
+            "vacation":null,
+            "visit friends": null,
+            "business":null,
+            "education":null
+        },
+        "y2009": {
+            "population": 115,
+            "vacation":null,
+            "visit friends": null,
+            "business":null,
+            "education":null
+        },
+        "y2010": {
+            "population": 115,
+            "vacation":null,
+            "visit friends": null,
+            "business":null,
+            "education":null
+        },
+        "y2011": {
+			"population":347,
+            "vacation": 24,
+            "visit friends": 29,
+            "business":34,
+            "education": 7
+        },
+        "y2012": {
+            "population": 111,
+            "vacation":null,
+            "visit friends": null,
+            "business":null,
+            "education":null
+        },
+        "y2013": {
+            "population": null,
+			"vacation": null,
+            "visit friends": null,
+            "business":null,
+            "education": null
+        }
+	},
+	{
+	"name": "Israel",
+		    "lat":"31.046",
+			"lon":"34.85",
+        "y2006": {
+            "population": 284,
+            "vacation":null,
+            "visit friends": null,
+            "business":null,
+            "education":null
+        },
+        "y2007": {
+            "population":284,
+			"vacation":null,
+            "visit friends": null,
+            "business":null,
+            "education":null
+        },
+        "y2008": {
+            "population":313,
+            "vacation":null,
+            "visit friends": null,
+            "business":null,
+            "education":null
+        },
+        "y2009": {
+            "population": 332,
+            "vacation":null,
+            "visit friends": null,
+            "business":null,
+            "education":null
+        },
+        "y2010": {
+            "population": 308,
+            "vacation":null,
+            "visit friends": null,
+            "business":null,
+            "education":null
+        },
+        "y2011": {
+			"population":263,
+            "vacation":null,
+            "visit friends": null,
+            "business":null,
+            "education":null
+        },
+        "y2012": {
+            "population": null,
+            "vacation":null,
+            "visit friends": null,
+            "business":null,
+            "education":null
+        },
+        "y2013": {
+            "population": null,
+			"vacation": null,
+            "visit friends": null,
+            "business":null,
+            "education": null
+        }
+	}
 ]
