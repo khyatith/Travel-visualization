@@ -23,7 +23,9 @@
   stroke-opacity: 1;
   stroke-width: 1.5px;
 }
-
+#nRadius-value{
+  font-size: 40px;
+}
 </style>
 
 </head>
@@ -31,8 +33,12 @@
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
+<input type="range" min="2006" max="2013" step="1" id="nRadius">
+<label for="nRadius" 
+         style="display: inline-block; width: 240px; text-align: right">
+         <span id="nRadius-value">…</span>
+  </label>
 <script>
-
 var width = 960,
     height = 500;
 
@@ -69,8 +75,29 @@ var svg = d3.select("body").append("svg")
                 .attr("class", "country")
                 .attr("d", path)
                 //.style("fill", function(d, i) { return color(d.color = d3.max(neighbors[i], function(n) { return countries[n].color; }) + 1 | 0); });
-
-            d3.json("final_json.json", function (error, data) {
+	d3.json("final_json.json", function (error, data) {
+	var name =[];
+	var lat = [];
+	var lon = [];
+	var y2006 = [];
+	for(var i =0;i<data.length;i++){
+	name.push(data[i].name);
+	lat.push(data[i].lat);
+	lon.push(data[i].lon);
+	y2006.push(data[i].y2006);
+	}
+	/*console.log(name);
+	console.log(lat);
+	console.log(lon);
+	console.log(y2006);*/
+	drawVisualization(data,name,lat,lon,2006);
+	// when the input range changes update the circle 
+	d3.select("#nRadius").on("input", function() {
+	updatevis(+this.value);
+	});
+	});
+			function drawVisualization(data,name,lat,lon,year){
+				//console.log(year);
                 svg.selectAll("circle")
                     .data(data)
                     .enter()
@@ -81,19 +108,18 @@ var svg = d3.select("body").append("svg")
                     .attr("cy", function (d) {
                         return projection([d.lon, d.lat])[1];
                     })
-                    .attr("r", function (d) {
-                        return d.y2011.population / 100;
-                    })
-                    .style("fill", "red");
+                    .attr("r", function(d,i){
+							return d.y2006.population /100;
+							})
+                    .style("fill","red");
                 //draw the purpose flag
                 svg.selectAll("image")
                     .data(data)
                     .enter()
                     .append("image")
                     .attr("xlink:href", function(d) {
-                    var purpose_percentage = [["vacation", d.y2011.vacation], ["visit friends", d.y2011["visit friends"]], ["business", d.y2011.business], ["education", d.y2011.education]];
-                    purpose_percentage.sort(function(a, b){return b[1]-a[1]});
-                    console.log(purpose_percentage);
+                    var purpose_percentage = [["vacation", d.y2006.vacation], ["visit friends", d.y2006["visit friends"]], ["business", d.y2006.business], ["education", d.y2006.education]];
+					purpose_percentage.sort(function(a, b){return b[1]-a[1]});
                     return flag[purpose_percentage[0][0]];
                 })
                     .attr("x", function (d) {
@@ -104,9 +130,78 @@ var svg = d3.select("body").append("svg")
                     })
                     .attr("width", "30")
                     .attr("height", "30");
-            });
-        });
-
+				d3.select("#nRadius-value").text("2006");
+				d3.select("#nRadius").property("value", "2006");
+            }
+		function updatevis(year)
+		{
+			svg.selectAll("circle")
+               .attr("r", function(d){
+					switch(year){
+					case 2006:
+					return d.y2006.population /100;
+					break;
+					case 2007:
+					return d.y2007.population /100;
+					break;
+					case 2008:
+					return d.y2008.population /100;
+					break;
+					case 2009:
+					return d.y2009.population /100;
+					break;
+					case 2010:
+					return d.y2010.population /100;
+					break;
+					case 2011:
+					return d.y2011.population /100;
+					break;
+					case 2012:
+					return d.y2012.population /100;
+					break;
+					case 2013:
+					return d.y2013.population /100;
+					break;
+				}
+				})
+               .style("fill","blue");
+			
+			svg.selectAll("image")
+			   .attr("xlink:href", function(d) {
+					var purpose_percentage;
+					switch(year){
+					case 2006:
+					purpose_percentage = [["vacation", d.y2006.vacation], ["visit friends", d.y2006["visit friends"]], ["business", d.y2006.business], ["education", d.y2006.education]];
+					break;
+					case 2007:
+					purpose_percentage = [["vacation", d.y2007.vacation], ["visit friends", d.y2007["visit friends"]], ["business", d.y2007.business], ["education", d.y2007.education]];
+					break;
+					case 2008:
+					purpose_percentage = [["vacation", d.y2008.vacation], ["visit friends", d.y2008["visit friends"]], ["business", d.y2008.business], ["education", d.y2008.education]];
+					break;
+					case 2009:
+					purpose_percentage = [["vacation", d.y2009.vacation], ["visit friends", d.y2009["visit friends"]], ["business", d.y2009.business], ["education", d.y2009.education]];
+					break
+					case 2010:
+					purpose_percentage = [["vacation", d.y2010.vacation], ["visit friends", d.y2010["visit friends"]], ["business", d.y2010.business], ["education", d.y2010.education]];
+					break;
+					case 2011:
+					purpose_percentage = [["vacation", d.y2011.vacation], ["visit friends", d.y2011["visit friends"]], ["business", d.y2011.business], ["education", d.y2011.education]];
+					break;
+					case 2012:
+					purpose_percentage = [["vacation", d.y2012.vacation], ["visit friends", d.y2012["visit friends"]], ["business", d.y2012.business], ["education", d.y2012.education]];
+					break;
+					case 2013:
+					purpose_percentage = [["vacation", d.y2013.vacation], ["visit friends", d.y2013["visit friends"]], ["business", d.y2013.business], ["education", d.y2013.education]];
+					break;
+					}
+					purpose_percentage.sort(function(a, b){return b[1]-a[1]});
+                    return flag[purpose_percentage[0][0]];
+                });
+			d3.select("#nRadius-value").text(year);
+			d3.select("#nRadius").property("value", year);
+		}
+});
 </script>
 
     </body>
