@@ -26,6 +26,19 @@
 #nRadius-value{
   font-size: 40px;
 }
+div.tooltip {
+ position: absolute;
+ text-align: center;
+ width: 150px;
+ height: 120px;
+ padding: 2px;
+ font-size: 15px;
+ background: orange;
+ border: 1px;
+ border-radius : 4px;
+ pointer-events: none;
+ color:#cc0000;
+}
 </style>
 
 </head>
@@ -100,11 +113,21 @@ var svg = d3.select("body").append("svg")
 				/*
 				I think we can use this to color the regions , but I am not sure since it is not giving correct results ! :P
 				*/
-				svg.selectAll(".country")
+				/*svg.selectAll(".country")
 					.data(data)
 					.style("fill", function(d, i) 
-					{ return color(d.color = d3.max(data, function(d) { return d.y2006.population.color; })); });
-                
+					{ 
+						var maxpopulation = d3.max(data,function(d){return d.y2006.population;});
+						var minpopulation = d3.min(data,function(d){return d.y2006.population});
+						if(d.y2006.population == maxpopulation){
+						return "#000000";}
+						else if(d.y2006.population == minpopulation){
+						return "#9ECAE1"}
+						else { return "#cc0000";}
+					});*/
+                var div = d3.select("body").append("div")
+							.attr("class", "tooltip")
+							.style("opacity", 0);
 				svg.selectAll("circle")
                     .data(data)
                     .enter()
@@ -136,7 +159,27 @@ var svg = d3.select("body").append("svg")
                         return projection([d.lon, d.lat])[1]-30;
                     })
                     .attr("width", "30")
-                    .attr("height", "30");
+                    .attr("height", "30")
+					.on("mouseover", function(d) {
+							d3.select(this).transition().duration(300).style("opacity", 1);
+							div.transition().duration(300)
+							   .style("opacity", 1)
+							div.html("<span style=color:#ffffff>Country</span>" + " : " + d.name + 
+							"<br/>" + "<span style=color:#ffffff>Population</span>" + ":" + d.y2006.population + 
+							"<br/>" + "<span style=color:#ffffff>Vacation</span>" + ":" + d.y2006.vacation +
+							"<br/>" + "<span style=color:#ffffff>Visit Friends</span>" + ":" + d.y2006["visit friends"] +
+							"<br/>" + "<span style=color:#ffffff>Business</span>" + ":" + d.y2006.business +
+							"<br/>" + "<span style=color:#ffffff>Education</span>" + ":" + d.y2006.education)
+							   .style("left", (d3.event.pageX) + "px")
+							   .style("top", (d3.event.pageY -30) + "px");
+                        })
+							   .on("mouseout", function() {
+                            d3.select(this)
+                              .transition().duration(300)
+                              .style("opacity", 0.8);
+                            div.transition().duration(300)
+                               .style("opacity", 0);
+                        });
 				d3.select("#nRadius-value").text("2006");
 				d3.select("#nRadius").property("value", "2006");
             }
