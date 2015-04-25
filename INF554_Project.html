@@ -39,6 +39,7 @@
          <span id="nRadius-value">…</span>
   </label>
 <script>
+var colors = ["#F7FBFF","#DEEBF7","#C6DBEF","#9ECAE1","#6BAED6","#4292C6","#2171B5","#08519C","#08306B"];
 var width = 960,
     height = 500;
 
@@ -73,8 +74,7 @@ var svg = d3.select("body").append("svg")
                 .data(countries)
                 .enter().insert("path", ".graticule")
                 .attr("class", "country")
-                .attr("d", path)
-                //.style("fill", function(d, i) { return color(d.color = d3.max(neighbors[i], function(n) { return countries[n].color; }) + 1 | 0); });
+                .attr("d", path);
 	d3.json("final_json.json", function (error, data) {
 	var name =[];
 	var lat = [];
@@ -97,8 +97,15 @@ var svg = d3.select("body").append("svg")
 	});
 	});
 			function drawVisualization(data,name,lat,lon,year){
-				//console.log(year);
-                svg.selectAll("circle")
+				/*
+				I think we can use this to color the regions , but I am not sure since it is not giving correct results ! :P
+				*/
+				svg.selectAll(".country")
+					.data(data)
+					.style("fill", function(d, i) 
+					{ return color(d.color = d3.max(data, function(d) { return d.y2006.population.color; })); });
+                
+				svg.selectAll("circle")
                     .data(data)
                     .enter()
                     .append("circle")
