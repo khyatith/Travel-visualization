@@ -267,6 +267,12 @@ d3.select("#nRadius").on("input", function() {
 				.defer(d3.json, "outbound_json.json")
 				.await(drawExportVisualization);
 		});
+		$("#CountryGDP").on("click",function(){
+			queue()
+				.defer(d3.json, "world-50m.json")
+				.defer(d3.csv, "WORLD_GDP_DATA.csv")
+				.await(drawGDPVisualization);
+		});
 		function drawExportVisualization(error,world,exportdata){
 		
 			svg.selectAll(".purpose").remove();
@@ -291,7 +297,6 @@ d3.select("#nRadius").on("input", function() {
 	  
 			country.filter(function(d) { return populationById.has(d.id); })
 					.style("fill", function(d) { 
-						console.log(populationById.get(d.id)[0].y2006);
 						return color(populationById.get(d.id)[0].y2006); 
 				});
 			
@@ -314,7 +319,6 @@ d3.select("#nRadius").on("input", function() {
 						return color(populationById.get(d.id)[0].y2007); 						
 					break;
 					case 2008:
-						console.log(populationById.get(d.id)[0].y2008);
 						return color(populationById.get(d.id)[0].y2008); 
 					break;
 					case 2009:
@@ -336,8 +340,76 @@ d3.select("#nRadius").on("input", function() {
 	  });
 			}
 		}
+		
+		function drawGDPVisualization(error,world,GDPdata){
+			console.log(GDPdata);
+			svg.selectAll(".purpose").remove();
+			var color = d3.scale.linear()
+						.domain([0,10,15,20])
+						.range(["#de1f2e", "#ffa07a", "#0ca454"])
+						.clamp(true)
+						.interpolate(d3.interpolateHcl);
+	
+			var GDPById = d3.nest()
+								 .key(function(d) { 
+										return d.id; })
+								.sortValues(function(a, b) { return a.y2006 - b.y2006; })
+								.map(GDPdata, d3.map);
+			
+			var country = svg.insert("g", ".graticule")
+							.attr("class", "country")
+							.selectAll("path")
+							.data(topojson.feature(world, world.objects.countries).features)
+							.enter().append("path")
+							.attr("d", path);
+	  
+			country.filter(function(d) { return GDPById.has(d.id); })
+					.style("fill", function(d) { 
+						console.log(GDPById.get(d.id)[0].y2006);
+						return color(GDPById.get(d.id)[0].y2006); 
+				});
+			
+			d3.select("#nRadius").on("input", function() {
+				updateGDPVis(GDPdata,+this.value);
+			});
+			
+			function updateGDPVis(GDPdata,year){
+			
+				d3.select("#nRadius-value").text(year);
+				d3.select("#nRadius").property("value", year);
+				
+					 country.filter(function(d) { return GDPById.has(d.id); })
+							.style("fill", function(d) { 
+					switch(year){
+						case 2006:
+							return color(GDPById.get(d.id)[0].y2006); 
+						break;
+						case 2007:
+							return color(GDPById.get(d.id)[0].y2007); 						
+						break;
+						case 2008:
+							return color(GDPById.get(d.id)[0].y2008); 
+						break;
+						case 2009:
+							return color(GDPById.get(d.id)[0].y2009); 
+						break;
+						case 2010:
+							return color(GDPById.get(d.id)[0].y2010); 
+						break;
+						case 2011:
+							return color(GDPById.get(d.id)[0].y2011); 
+						break;
+						case 2012:
+							return color(GDPById.get(d.id)[0].y2012); 
+						break;
+						case 2013:
+							return color(GDPById.get(d.id)[0].y2013); 
+						break;
+					}
+				});
+			}
 }
-
+}
 </script>
 
     </body>
