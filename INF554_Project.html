@@ -143,7 +143,7 @@ function ready(error, world, final) {
 	  
   country.filter(function(d) { return treatiesById.has(d.id); })
       .style("fill", function(d) { 
-      return color(treatiesById.get(d.id)[0].y2006.population); 
+		return color(treatiesById.get(d.id)[0].y2006.population); 
 	});
 	
     svg.selectAll("image")
@@ -152,9 +152,12 @@ function ready(error, world, final) {
                     .append("image")
 					.attr("class","purpose")
                     .attr("xlink:href", function(d) {
-                    var purpose_percentage = [["vacation", d.y2006.vacation], ["visit friends", d.y2006["visit friends"]], ["business", d.y2006.business], ["education", d.y2006.education]];
-					purpose_percentage.sort(function(a, b){return b[1]-a[1]});
-                    return flag[purpose_percentage[0][0]];
+					if(d.y2006.vacation !=null ||  d.y2006.visit_friends!=null || d.y2006.business!=null || d.y2006.education!=null) {
+						var purpose_percentage = [["vacation", d.y2006.vacation], ["visit_friends", d.y2006.visit_friends], ["business", d.y2006.business], ["education", d.y2006.education]];
+						purpose_percentage.sort(function(a, b){return b[1]-a[1]});
+					return flag[purpose_percentage[0][0]];
+					}
+					else { return;}
                 })
                     .attr("x", function (d) {
                         return projection([d.lon, d.lat])[0]-11;
@@ -171,7 +174,7 @@ function ready(error, world, final) {
 							div.html("<span style=color:#ffffff>Country</span>" + " : " + d.name + 
 							"<br/>" + "<span style=color:#ffffff>Population</span>" + ":" + d.y2006.population + 
 							"<br/>" + "<span style=color:#ffffff>Vacation</span>" + ":" + d.y2006.vacation +
-							"<br/>" + "<span style=color:#ffffff>Visit Friends</span>" + ":" + d.y2006["visit friends"] +
+							"<br/>" + "<span style=color:#ffffff>Visit Friends</span>" + ":" + d.y2006.visit_friends +
 							"<br/>" + "<span style=color:#ffffff>Business</span>" + ":" + d.y2006.business +
 							"<br/>" + "<span style=color:#ffffff>Education</span>" + ":" + d.y2006.education)
 							   .style("left", (d3.event.pageX) + "px")
@@ -230,31 +233,67 @@ d3.select("#nRadius").on("input", function() {
 					var purpose_percentage;
 					switch(year){
 					case 2006:
-					purpose_percentage = [["vacation", d.y2006.vacation], ["visit friends", d.y2006["visit friends"]], ["business", d.y2006.business], ["education", d.y2006.education]];
+					if(d.y2006.vacation !=null ||  d.y2006.visit_friends!=null || d.y2006.business!=null || d.y2006.education!=null){
+						purpose_percentage = [["vacation", d.y2006.vacation], ["visit_friends", d.y2006.visit_friends], ["business", d.y2006.business], ["education", d.y2006.education]];
+					} else {
+						purpose_percentage = [[0]];
+					}
 					break;
 					case 2007:
-					purpose_percentage = [["vacation", d.y2007.vacation], ["visit friends", d.y2007["visit friends"]], ["business", d.y2007.business], ["education", d.y2007.education]];
+					if(d.y2007.vacation !=null ||  d.y2007.visit_friends!=null || d.y2007.business!=null || d.y2007.education!=null){
+						purpose_percentage = [["vacation", d.y2007.vacation], ["visit_friends", d.y2007.visit_friends], ["business", d.y2007.business], ["education", d.y2007.education]];
+					} else {
+						purpose_percentage = [[0]];
+					}
 					break;
 					case 2008:
-					purpose_percentage = [["vacation", d.y2008.vacation], ["visit friends", d.y2008["visit friends"]], ["business", d.y2008.business], ["education", d.y2008.education]];
+					if(d.y2008.vacation !=null ||  d.y2008.visit_friends!=null || d.y2008.business!=null || d.y2008.education!=null){
+						purpose_percentage = [["vacation", d.y2008.vacation], ["visit_friends", d.y2008.visit_friends], ["business", d.y2008.business], ["education", d.y2008.education]];
+					} else {
+						purpose_percentage = [[0]];
+					}
 					break;
 					case 2009:
-					purpose_percentage = [["vacation", d.y2009.vacation], ["visit friends", d.y2009["visit friends"]], ["business", d.y2009.business], ["education", d.y2009.education]];
+					if(d.y2009.vacation !=null ||  d.y2009.visit_friends!=null || d.y2009.business!=null || d.y2009.education!=null) {
+						purpose_percentage = [["vacation", d.y2009.vacation], ["visit_friends", d.y2009.visit_friends], ["business", d.y2009.business], ["education", d.y2009.education]];
+					} else {
+						purpose_percentage = [[0]];
+					}
 					break
 					case 2010:
-					purpose_percentage = [["vacation", d.y2010.vacation], ["visit friends", d.y2010["visit friends"]], ["business", d.y2010.business], ["education", d.y2010.education]];
+					if(d.y2010.vacation !=null ||  d.y2010.visit_friends!=null || d.y2010.business!=null || d.y2010.education!=null) {
+						purpose_percentage = [["vacation", d.y2010.vacation], ["visit_friends", d.y2010.visit_friends], ["business", d.y2010.business], ["education", d.y2010.education]];
+					} else {
+						purpose_percentage = [[0]];
+					}
 					break;
 					case 2011:
-					purpose_percentage = [["vacation", d.y2011.vacation], ["visit friends", d.y2011["visit friends"]], ["business", d.y2011.business], ["education", d.y2011.education]];
+					if(d.y2011.vacation !=null ||  d.y2011.visit_friends!=null || d.y2011.business!=null || d.y2011.education!=null) {
+						purpose_percentage = [["vacation", d.y2011.vacation], ["visit_friends", d.y2011.visit_friends], ["business", d.y2011.business], ["education", d.y2011.education]];
+					} else {
+						purpose_percentage = [[0]];
+					}
 					break;
 					case 2012:
-					purpose_percentage = [["vacation", d.y2012.vacation], ["visit friends", d.y2012["visit friends"]], ["business", d.y2012.business], ["education", d.y2012.education]];
+					if(d.y2012.vacation !=null ||  d.y2012.visit_friends!=null || d.y2012.business!=null || d.y2012.education!=null) {
+						purpose_percentage = [["vacation", d.y2012.vacation], ["visit_friends", d.y2012.visit_friends], ["business", d.y2012.business], ["education", d.y2012.education]];
+					} else {
+						purpose_percentage = [[0]];
+					}
 					break;
 					case 2013:
-					purpose_percentage = [["vacation", d.y2013.vacation], ["visit friends", d.y2013["visit friends"]], ["business", d.y2013.business], ["education", d.y2013.education]];
+					if(d.y2013.vacation !=null ||  d.y2013.visit_friends!=null || d.y2013.business!=null || d.y2013.education!=null) {
+						purpose_percentage = [["vacation", d.y2013.vacation], ["visit_friends", d.y2013.visit_friends], ["business", d.y2013.business], ["education", d.y2013.education]];
+					}
+					else {
+						purpose_percentage = [[0]];
+					}
 					break;
 					}
 					purpose_percentage.sort(function(a, b){return b[1]-a[1]});
+					if(purpose_percentage[0][0]==0){
+						return "";
+					}
                     return flag[purpose_percentage[0][0]];
                 });
 			d3.select("#nRadius-value").text(year);
