@@ -2,6 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 <style>
 
 .country {
@@ -39,8 +40,26 @@ div.tooltip {
  pointer-events: none;
  color:#cc0000;
 }
+#USImport{
+stroke:black;
+stroke-width:1;
+fill:lightsteelblue;
+}
+#USExport{
+stroke:black;
+stroke-width:1;
+fill:lightsteelblue;
+}
+#CountryGDP{
+stroke:black;
+stroke-width:1;
+fill:lightsteelblue;
+}
+#mainButton{
+margin-left:40%;
+margin-top:
+}
 </style>
-
 </head>
 <body>
 <script src="http://d3js.org/d3.v3.min.js"></script>
@@ -49,32 +68,25 @@ div.tooltip {
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <input type="range" min="2006" max="2013" step="1" id="nRadius">
 <label for="nRadius" 
-         style="display: inline-block; width: 240px; text-align: right">
-         <span id="nRadius-value">…</span>
-  </label>
+		id="nRadius" style="display: inline-block; width: 240px; text-align: right">
+<span id="nRadius-value">…</span>
+</label>
+<svg height="85" width="300" id="mainButton">
+  <circle id="USImport" cx="50" cy="50" r="30" />
+  <circle id="USExport" cx="150" cy="50" r="30" />
+  <circle id="CountryGDP" cx="250" cy="50" r="30" />
+  <text x="50" y="50" font-size="15px" fill="black" text-anchor="middle">Import</text>
+  <text x="150" y="50" font-size="15px" fill="black" text-anchor="middle">Export</text>
+  <text x="250" y="50" font-size="15px" fill="black" text-anchor="middle">GDP</text>
+</svg>
 <script>
-var color_domain = [500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000];
-var ext_color_domain = [0, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000, 5500, 6000];
-var color = d3.scale.threshold()
- .domain(color_domain)
- .range(["#dcdcdc", "#d0d6cd", "#bdc9be", "#aabdaf", "#97b0a0", "#84a491", "719782", "#5e8b73", "#4b7e64", "#387255", "#256546", "#125937", "#004d28"]);
 var width = 960,
     height = 500;
-
-/*var projection = d3.geo.patterson(),
-    color = d3.scale.category10(),
-    graticule = d3.geo.graticule();*/
     
-    var projection = d3.geo.naturalEarth()
+var projection = d3.geo.naturalEarth()
     .scale(167)
     .translate([width / 2, height / 2])
     .precision(.1);
-    
-    var color = d3.scale.linear()
-    .domain([1800, 20])
-    .range(["#de1f2e", "#e4e4e4", "#0ca454"])
-    .clamp(true)
-    .interpolate(d3.interpolateHcl);
 
 var path = d3.geo.path()
     .projection(projection);
@@ -102,12 +114,22 @@ var svg = d3.select("body").append("svg")
     .defer(d3.json, "world-50m.json")
     .defer(d3.json, "final_json.json")
     .await(ready);
-
+$("#USImport").on("click",function(){
+			queue()
+				.defer(d3.json, "world-50m.json")
+				.defer(d3.json, "final_json.json")
+				.await(ready);
+});	
 function ready(error, world, final) {
        
-                var treatiesById = d3.nest()
+	var color = d3.scale.linear()
+    .domain([d3.min(final,function(d){return d.y2006.population;}), d3.max(final,function(d){return d.y2006.population})])
+    .range(["#de1f2e", "#e4e4e4", "#0ca454"])
+    .clamp(true)
+    .interpolate(d3.interpolateHcl);
+	
+    var treatiesById = d3.nest()
       .key(function(d) { 
-//          console.log(d.id);
           return d.id; })
       .sortValues(function(a, b) { return a.y2006.population - b.y2006.population; })
       .map(final, d3.map);
@@ -118,18 +140,17 @@ function ready(error, world, final) {
       .data(topojson.feature(world, world.objects.countries).features)
     .enter().append("path")
       .attr("d", path);
-
-
+	  
   country.filter(function(d) { return treatiesById.has(d.id); })
       .style("fill", function(d) { 
-//      console.log(treatiesById.get(d.id));
-      return color(treatiesById.get(d.id)[0].y2006.population); });
-
-		
-/*    svg.selectAll("image")
+      return color(treatiesById.get(d.id)[0].y2006.population); 
+	});
+	
+    svg.selectAll("image")
                     .data(final)
                     .enter()
                     .append("image")
+					.attr("class","purpose")
                     .attr("xlink:href", function(d) {
                     var purpose_percentage = [["vacation", d.y2006.vacation], ["visit friends", d.y2006["visit friends"]], ["business", d.y2006.business], ["education", d.y2006.education]];
 					purpose_percentage.sort(function(a, b){return b[1]-a[1]});
@@ -164,17 +185,52 @@ function ready(error, world, final) {
                                .style("opacity", 0);
                         });
 				d3.select("#nRadius-value").text("2006");
-				d3.select("#nRadius").property("value", "2006");*/
-}
+				d3.select("#nRadius").property("value", "2006");
+				
+				
+d3.select("#nRadius").on("input", function() {
+	updatevis(final,+this.value);
+	});
     
-    
-			/*svg.selectAll("image")
+    function updatevis(data,year)
+		{
+			 country.filter(function(d) { return treatiesById.has(d.id); })
+      .style("fill", function(d) { 
+			switch(year){
+					case 2006:
+						return color(treatiesById.get(d.id)[0].y2006.population); 
+					break;
+					case 2007:
+						return color(treatiesById.get(d.id)[0].y2007.population); 						
+					break;
+					case 2008:
+						return color(treatiesById.get(d.id)[0].y2008.population); 
+					break;
+					case 2009:
+						return color(treatiesById.get(d.id)[0].y2009.population); 
+					break;
+					case 2010:
+						return color(treatiesById.get(d.id)[0].y2010.population); 
+					break;
+					case 2011:
+						return color(treatiesById.get(d.id)[0].y2011.population); 
+					break;
+					case 2012:
+						return color(treatiesById.get(d.id)[0].y2012.population); 
+					break;
+					case 2013:
+						return color(treatiesById.get(d.id)[0].y2013.population); 
+					break;
+				}
+	  });
+			
+			svg.selectAll("image")
+				.attr("class","purpose")
 			   .attr("xlink:href", function(d) {
 					var purpose_percentage;
 					switch(year){
 					case 2006:
-					purpose_percentage = [["vacation", treatiesById.get(d.id)[0].y2006.vacation], ["visit friends", treatiesById.get(d.id)[0].y2006["visit friends"]], ["business", treatiesById.get(d.id)[0].y2006.business], ["education", treatiesById.get(d.id)[0].y2006.education]];
-                            console.log(treatiesById.get(d.id)[0].y2006.vacation);
+					purpose_percentage = [["vacation", d.y2006.vacation], ["visit friends", d.y2006["visit friends"]], ["business", d.y2006.business], ["education", d.y2006.education]];
 					break;
 					case 2007:
 					purpose_percentage = [["vacation", d.y2007.vacation], ["visit friends", d.y2007["visit friends"]], ["business", d.y2007.business], ["education", d.y2007.education]];
@@ -203,12 +259,84 @@ function ready(error, world, final) {
                 });
 			d3.select("#nRadius-value").text(year);
 			d3.select("#nRadius").property("value", year);
-		};
-    */
-/*    function type(d) {
-  d.id = +d.id;
-  return d;
-}*/
+		}
+		
+		$("#USExport").on("click",function(){
+			queue()
+				.defer(d3.json, "world-50m.json")
+				.defer(d3.json, "outbound_json.json")
+				.await(drawExportVisualization);
+		});
+		function drawExportVisualization(error,world,exportdata){
+		
+			svg.selectAll(".purpose").remove();
+			var color = d3.scale.linear()
+						.domain([20,100,10000,100000])
+						.range(["#de1f2e", "#ffa07a", "#0ca454"])
+						.clamp(true)
+						.interpolate(d3.interpolateHcl);
+	
+			var populationById = d3.nest()
+								 .key(function(d) { 
+										return d.id; })
+								.sortValues(function(a, b) { return a.y2006 - b.y2006; })
+								.map(exportdata, d3.map);
+			
+			var country = svg.insert("g", ".graticule")
+							.attr("class", "country")
+							.selectAll("path")
+							.data(topojson.feature(world, world.objects.countries).features)
+							.enter().append("path")
+							.attr("d", path);
+	  
+			country.filter(function(d) { return populationById.has(d.id); })
+					.style("fill", function(d) { 
+						console.log(populationById.get(d.id)[0].y2006);
+						return color(populationById.get(d.id)[0].y2006); 
+				});
+			
+			d3.select("#nRadius").on("input", function() {
+				updateExportVis(exportdata,+this.value);
+			});
+			
+			function updateExportVis(exportdata,year){
+			
+				d3.select("#nRadius-value").text(year);
+				d3.select("#nRadius").property("value", year);
+				
+					 country.filter(function(d) { return populationById.has(d.id); })
+							.style("fill", function(d) { 
+			switch(year){
+					case 2006:
+						return color(populationById.get(d.id)[0].y2006); 
+					break;
+					case 2007:
+						return color(populationById.get(d.id)[0].y2007); 						
+					break;
+					case 2008:
+						console.log(populationById.get(d.id)[0].y2008);
+						return color(populationById.get(d.id)[0].y2008); 
+					break;
+					case 2009:
+						return color(populationById.get(d.id)[0].y2009); 
+					break;
+					case 2010:
+						return color(populationById.get(d.id)[0].y2010); 
+					break;
+					case 2011:
+						return color(populationById.get(d.id)[0].y2011); 
+					break;
+					case 2012:
+						return color(populationById.get(d.id)[0].y2012); 
+					break;
+					case 2013:
+						return color(populationById.get(d.id)[0].y2013); 
+					break;
+				}
+	  });
+			}
+		}
+}
 
 </script>
 
