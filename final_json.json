@@ -3,6 +3,7 @@
         "name": "Argentina",
         "lat": -38.416,
         "lon": -63.616,
+		"id": 32,
         "y2006": {
             "population": 212,
             "vacation": "",
@@ -64,6 +65,7 @@
         "name": "Australia",
         "lat": -25.274,
         "lon": 133.775,
+		"id": 36,
         "y2006": {
             "population": 603,
             "vacation": 48,
@@ -125,6 +127,7 @@
 	 "name": "Brazil",
        "lat":-15.67,
 	   "lon":-47.43,
+	   "id": 76,
         "y2006": {
             "population": 525,
             "vacation": 49,
@@ -186,6 +189,7 @@
 	 "name": "China",
 		"lat":35.86166,
 		"lon":104.19,
+		"id": 156,
         "y2006": {
             "population": 320,
             "vacation": 8,
@@ -247,6 +251,7 @@
 	"name": "Chile",
 		"lat":-30.11,
 		"lon":-71.36,
+		"id": 152,
         "y2006": {
             "population": 110,
             "vacation": null,
@@ -308,6 +313,7 @@
 	"name": "Colombia",
 		"lat":4.57,
 		"lon":-74.29,
+		"id":170,
         "y2006": {
             "population": 348,
             "vacation": null,
@@ -369,6 +375,7 @@
 	"name": "France",
 		"lat":46.227,
 		"lon":2.213,
+		"id":250,
         "y2006": {
             "population": 790,
             "vacation": null,
@@ -430,6 +437,7 @@
 	"name": "Germany",
 		"lat":51.165,
 		"lon":10.4515,
+		"id":276,
         "y2006": {
             "population": 1386,
             "vacation": 37,
@@ -491,6 +499,7 @@
 	"name": "India",
 		"lat":29.01,
 		"lon":77.38,
+		"id":356,
         "y2006": {
             "population": 407,
             "vacation": 8,
@@ -552,6 +561,7 @@
 	"name": "Italy",
 		"lat":41.87,
 		"lon":12.567,
+		"id":380,
         "y2006": {
             "population": 533,
             "vacation": 50,
@@ -613,6 +623,7 @@
 	"name": "Japan",
 		"lat":35.68,
 		"lon":139.76,
+		"id":392,
         "y2006": {
             "population": 3673,
             "vacation": 68,
@@ -674,6 +685,7 @@
 	"name": "Mexico",
 		"lat":23.634,
 		"lon":-102.552,
+		"id":484,
         "y2006": {
             "population": 1713,
             "vacation": 28,
@@ -735,6 +747,7 @@
 	"name": "Netherlands",
 		"lat":52.132,
 		"lon":5.2912,
+		"id":528,
         "y2006": {
             "population": 447,
             "vacation": null,
@@ -796,6 +809,7 @@
 	"name": "Russia",
 		"lat":61.52,
 		"lon":105.318,
+		"id":643,
         "y2006": {
             "population": 95,
             "vacation": null,
@@ -857,6 +871,7 @@
 	"name": "Saudi Arabia",
 		"lat":35.907,
 		"lon":127.766,
+		"id":682,
         "y2006": {
             "population": 32,
             "vacation": null,
@@ -918,6 +933,7 @@
 	"name": "South Korea",
 		"lat":35.907,
 		"lon":127.766,
+		"id":410,
         "y2006": {
             "population": 758,
             "vacation": 31,
@@ -979,6 +995,7 @@
 	"name": "Singapore",
 		"lat":1.36,
 		"lon":103.75,
+		"id":702,
         "y2006": {
             "population": 123,
             "vacation": 26,
@@ -1040,6 +1057,7 @@
 	"name": "Spain",
 		"lat":40.463,
 		"lon":-3.7492,
+		"id":724,
         "y2006": {
             "population": 424,
             "vacation": null,
@@ -1101,6 +1119,7 @@
 	"name": "Sweden",
 		"lat":60.128,
 		"lon":18.643,
+		"id":752,
         "y2006": {
             "population": 286,
             "vacation": null,
@@ -1162,6 +1181,7 @@
 	"name": "Switzerland",
 		"lat":46.818,
 		"lon":8.227,
+		"id":756,
         "y2006": {
             "population": 271,
             "vacation": null,
@@ -1223,6 +1243,7 @@
 	"name": "Taiwan",
 		"lat":23.97,
 		"lon":120.96,
+		"id":158,
         "y2006": {
             "population": 300,
             "vacation": 23,
@@ -1284,6 +1305,7 @@
 	"name": "United Kingdom",
 		"lat":55.378,
 		"lon":-3.435,
+		"id":826,
         "y2006": {
             "population": 4176,
             "vacation": 63,
@@ -1345,6 +1367,7 @@
 	"name": "Venezuela",
 		"lat":10.5,
 		"lon":-66.966,
+		"id":862,
         "y2006": {
             "population": 369,
             "vacation": null,
@@ -1406,6 +1429,7 @@
 	"name": "South Africa",
 		"lat":-30.55,
 		"lon":22.937,
+		"id":710,
         "y2006": {
             "population": 89,
             "vacation": null,
@@ -1467,6 +1491,7 @@
 	"name": "Ireland",
 		"lat":53.412,
 		"lon":-8.2438,
+		"id":372,
         "y2006": {
             "population": 414,
             "vacation": 62,
@@ -1528,6 +1553,7 @@
 	"name": "Poland",
 		"lat":51.919,
 		"lon":19.145,
+		"id":616,
         "y2006": {
             "population": 138,
             "vacation":null,
@@ -1589,6 +1615,7 @@
 	"name": "Israel",
 		    "lat":31.046,
 			"lon":34.85,
+			"id":376,
         "y2006": {
             "population": 284,
             "vacation":null,
