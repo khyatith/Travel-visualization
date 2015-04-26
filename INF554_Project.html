@@ -44,6 +44,7 @@ div.tooltip {
 </head>
 <body>
 <script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
 <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
 <script src="http://d3js.org/topojson.v1.min.js"></script>
 <input type="range" min="2006" max="2013" step="1" id="nRadius">
@@ -60,9 +61,20 @@ var color = d3.scale.threshold()
 var width = 960,
     height = 500;
 
-var projection = d3.geo.patterson(),
+/*var projection = d3.geo.patterson(),
     color = d3.scale.category10(),
-    graticule = d3.geo.graticule();
+    graticule = d3.geo.graticule();*/
+    
+    var projection = d3.geo.naturalEarth()
+    .scale(167)
+    .translate([width / 2, height / 2])
+    .precision(.1);
+    
+    var color = d3.scale.linear()
+    .domain([1800, 20])
+    .range(["#de1f2e", "#e4e4e4", "#0ca454"])
+    .clamp(true)
+    .interpolate(d3.interpolateHcl);
 
 var path = d3.geo.path()
     .projection(projection);
@@ -70,6 +82,10 @@ var path = d3.geo.path()
 var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
+    
+    var div = d3.select("body").append("div")
+							.attr("class", "tooltip")
+							.style("opacity", 0);
 
  var flag = {
 
@@ -81,78 +97,37 @@ var svg = d3.select("body").append("svg")
 
                 "education": 'resources/images/education.png',
                 }
-
-
-        d3.json("readme-world.json", function (error, world) {
-		
-            var countries = topojson.feature(world, world.objects.countries).features,
-                neighbors = topojson.neighbors(world.objects.countries.geometries);
-            
-	d3.json("final_json.json", function (error, data) {
-	var name =[];
-	var lat = [];
-	var lon = [];
-	var y2006 = [];
-	for(var i =0;i<data.length;i++){
-	name.push(data[i].name);
-	lat.push(data[i].lat);
-	lon.push(data[i].lon);
-	y2006.push(data[i].y2006);
-	}
-	/*console.log(name);
-	console.log(lat);
-	console.log(lon);
-	console.log(y2006);*/
-	drawVisualization(data,name,lat,lon,2006);
-	// when the input range changes update the circle 
-	d3.select("#nRadius").on("input", function() {
-	updatevis(+this.value);
-	});
-	});
-			function drawVisualization(data,name,lat,lon,year){
-				/*
-				I think we can use this to color the regions , but I am not sure since it is not giving correct results ! :P
-				*/
-				/*var pairRateWithId = {};
-				var pairLatWithId = {};
-				var pairLonWithId = {};
  
-				data.forEach(function(d) {
-					pairRateWithId[d.name] = +d.y2006.population;
-				});
-				svg.selectAll(".country")
-					.data(data)
-					.style ( "fill" , function (d) {
-						return color (pairRateWithId[d.y2006.population]);
-				})
-					.style("opacity", 0.8*/
-	  
-				svg.selectAll(".country")
-                .data(countries)
-                .enter().insert("path", ".graticule")
-                .attr("class", "country")
-                .attr("d", path);
-					
-                var div = d3.select("body").append("div")
-							.attr("class", "tooltip")
-							.style("opacity", 0);
-				svg.selectAll("circle")
-                    .data(data)
-                    .enter()
-                    .append("circle")
-                    .attr("cx", function (d) {
-                        return projection([d.lon, d.lat])[0];
-                    })
-                    .attr("cy", function (d) {
-                        return projection([d.lon, d.lat])[1];
-                    })
-                    .attr("r", function(d,i){
-							return d.y2006.population /100;
-							})
-                    .style("fill","red");
-                //draw the purpose flag
-                svg.selectAll("image")
-                    .data(data)
+ queue()
+    .defer(d3.json, "world-50m.json")
+    .defer(d3.json, "final_json.json")
+    .await(ready);
+
+function ready(error, world, final) {
+       
+                var treatiesById = d3.nest()
+      .key(function(d) { 
+//          console.log(d.id);
+          return d.id; })
+      .sortValues(function(a, b) { return a.y2006.population - b.y2006.population; })
+      .map(final, d3.map);
+
+  var country = svg.insert("g", ".graticule")
+      .attr("class", "country")
+    .selectAll("path")
+      .data(topojson.feature(world, world.objects.countries).features)
+    .enter().append("path")
+      .attr("d", path);
+
+
+  country.filter(function(d) { return treatiesById.has(d.id); })
+      .style("fill", function(d) { 
+//      console.log(treatiesById.get(d.id));
+      return color(treatiesById.get(d.id)[0].y2006.population); });
+
+		
+/*    svg.selectAll("image")
+                    .data(final)
                     .enter()
                     .append("image")
                     .attr("xlink:href", function(d) {
@@ -189,48 +164,17 @@ var svg = d3.select("body").append("svg")
                                .style("opacity", 0);
                         });
 				d3.select("#nRadius-value").text("2006");
-				d3.select("#nRadius").property("value", "2006");
-            }
-		function updatevis(year)
-		{
-			svg.selectAll("circle")
-               .attr("r", function(d){
-					switch(year){
-					case 2006:
-					return d.y2006.population /100;
-					break;
-					case 2007:
-					return d.y2007.population /100;
-					break;
-					case 2008:
-					return d.y2008.population /100;
-					break;
-					case 2009:
-					return d.y2009.population /100;
-					break;
-					case 2010:
-					return d.y2010.population /100;
-					break;
-					case 2011:
-					return d.y2011.population /100;
-					break;
-					case 2012:
-					return d.y2012.population /100;
-					break;
-					case 2013:
-					return d.y2013.population /100;
-					break;
-				}
-				})
-               .style("fill","blue")
-			   .style("opacity",0.5);
-			
-			svg.selectAll("image")
+				d3.select("#nRadius").property("value", "2006");*/
+}
+    
+    
+			/*svg.selectAll("image")
 			   .attr("xlink:href", function(d) {
 					var purpose_percentage;
 					switch(year){
 					case 2006:
-					purpose_percentage = [["vacation", d.y2006.vacation], ["visit friends", d.y2006["visit friends"]], ["business", d.y2006.business], ["education", d.y2006.education]];
+					purpose_percentage = [["vacation", treatiesById.get(d.id)[0].y2006.vacation], ["visit friends", treatiesById.get(d.id)[0].y2006["visit friends"]], ["business", treatiesById.get(d.id)[0].y2006.business], ["education", treatiesById.get(d.id)[0].y2006.education]];
+                            console.log(treatiesById.get(d.id)[0].y2006.vacation);
 					break;
 					case 2007:
 					purpose_percentage = [["vacation", d.y2007.vacation], ["visit friends", d.y2007["visit friends"]], ["business", d.y2007.business], ["education", d.y2007.education]];
@@ -259,8 +203,13 @@ var svg = d3.select("body").append("svg")
                 });
 			d3.select("#nRadius-value").text(year);
 			d3.select("#nRadius").property("value", year);
-		}
-});
+		};
+    */
+/*    function type(d) {
+  d.id = +d.id;
+  return d;
+}*/
+
 </script>
 
     </body>
