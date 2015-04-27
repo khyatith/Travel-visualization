@@ -162,7 +162,7 @@ input[type=range]:focus::-ms-fill-upper {
   <text x="250" y="50" font-size="15px" fill="black" text-anchor="middle">GDP</text>
 </svg>
 <!-- purpose button -->
-<!--<input type="button" value="Vacation" id="vacationbutton">-->
+<input type="button" value="Purpose" id="purposebutton">
 <script>
 var width = 960,
     height = 500;
@@ -211,7 +211,7 @@ function ready(error, world, final) {
        
 	var color = d3.scale.linear()
     .domain([d3.min(final,function(d){return d.y2006.population;}), d3.max(final,function(d){return d.y2006.population})])
-    .range(["#de1f2e", "#e4e4e4", "#0ca454"])
+    .range(["#0ca454", "#de1f2e"])
     .clamp(true)
     .interpolate(d3.interpolateHcl);
 	
@@ -280,13 +280,13 @@ d3.select("#nRadius").on("input", function() {
 }); 
 
 // may be we can use this for purpose !?? 
-/*d3.select("#vacationbutton").on("click",function(){
+d3.select("#purposebutton").on("click",function(){
 	svg.selectAll(".purpose").remove();
-	var selectedyear = $("#nRadius-value").text();
-	updatevisByPurpose(final,selectedyear,1);
+	/*var selectedyear = $("#nRadius-value").text();
+	updatevisByPurpose(final,selectedyear,1);*/
 	}); 
 
-	function updatevisByPurpose(data,year,type){
+/*	function updatevisByPurpose(data,year,type){
 	console.log(year);
 	console.log(type);
 		svg.selectAll("image")
