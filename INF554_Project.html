@@ -243,21 +243,25 @@
                 .defer(d3.json, "final_json.json")
                 .await(ready);
         });
-
         function ready(error, world, final) {
+		
+		var avg =(d3.min(final,function(d){return d.y2006.population}) + d3.max(final,function(d){return d.y2006.population})) / 2;
+		var avg2 = (d3.min(final,function(d){return d.y2006.population}) + d3.max(final,function(d){return d.y2006.population})) / 3;
+		var avg3 = (d3.min(final,function(d){return d.y2006.population}) + d3.max(final,function(d){return d.y2006.population})) / 4;
+		var avg4 = (d3.min(final,function(d){return d.y2006.population}) + d3.max(final,function(d){return d.y2006.population})) / 6;
         var ext_color_domain = [d3.min(final, function (d) {
                     return d.y2006.population;
-                }), d3.max(final, function (d) {
+                }), avg4,avg3,avg2,avg,d3.max(final, function (d) {
                     return d.y2006.population
                 })];
-         var legend_labels = ["lowest","highest"];
+         var legend_labels = ["lowest","","","","","highest"];
             var color = d3.scale.linear()
                 .domain([d3.min(final, function (d) {
                     return d.y2006.population;
-                }), d3.max(final, function (d) {
+                }), avg,d3.max(final, function (d) {
                     return d.y2006.population
                 })])
-                .range(["#0ca454", "#de1f2e"])
+                .range(["#0ca454", "#ffa07a","#de1f2e"])
                 .clamp(true)
                 .interpolate(d3.interpolateHcl);
 
@@ -455,8 +459,8 @@ legend.append("text")
 
                 svg.selectAll(".purpose").remove();
                 var color = d3.scale.linear()
-                    .domain([20, 100, 10000, 100000])
-                    .range(["#de1f2e", "#ffa07a", "#0ca454"])
+                    .domain([20, 10000, 100000])
+                    .range(["#0ca454", "#ffa07a","#de1f2e"])
                     .clamp(true)
                     .interpolate(d3.interpolateHcl);
 
