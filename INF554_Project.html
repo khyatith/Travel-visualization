@@ -1,681 +1,756 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="utf-8">
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
-<style>
-
-.country {
-  fill: #ccc;
-  stroke: #fff;
-  stroke-width: .5px;
-  stroke-linejoin: round;
-}
-
-.graticule {
-  fill: none;
-  stroke: #000;
-  stroke-opacity: .3;
-  stroke-width: .5px;
-}
-
-.graticule.outline {
-  stroke: #333;
-  stroke-opacity: 1;
-  stroke-width: 1.5px;
-}
-#nRadius-value{
-  font-size: 40px;
-}
-div.tooltip {
- position: absolute;
- text-align: center;
- width: 150px;
- height: 130px;
- padding: 2px;
- font-size: 15px;
- background: white;
- border: 1px;
- border-radius : 4px;
- pointer-events: none;
- color:#000;
-}
-#USImport{
-fill:lightsteelblue;
-}
-#USExport{
-fill:lightsteelblue;
-}
-#CountryGDP{
-fill:lightsteelblue;
-}
-#mainButton{
-margin-left:30%;
-}
-input[type=range] {
-    /*removes default webkit styles*/
-    -webkit-appearance: none;
-    
-    /*fix for FF unable to apply focus style bug */
-    border: 1px solid white;
-    
-    /*required for proper track sizing in FF*/
-    width: 500px;
-	margin-left:20%;
-}
-input[type=range]::-webkit-slider-runnable-track {
-    width: 300px;
-    height: 5px;
-    background: #ddd;
-    border: none;
-    border-radius: 3px;
-}
-input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    border: none;
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    background: goldenrod;
-    margin-top: -4px;
-}
-input[type=range]:focus {
-    outline: none;
-}
-input[type=range]:focus::-webkit-slider-runnable-track {
-    background: #ccc;
-}
-
-input[type=range]::-moz-range-track {
-    width: 500px;
-    height: 5px;
-    background: #ddd;
-    border: none;
-    border-radius: 3px;
-}
-input[type=range]::-moz-range-thumb {
-    border: none;
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    background: goldenrod;
-}
-
-/*hide the outline behind the border*/
-input[type=range]:-moz-focusring{
-    outline: 1px solid white;
-    outline-offset: -1px;
-}
-
-input[type=range]::-ms-track {
-    width: 300px;
-    height: 5px;
-    
-    /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
-    background: transparent;
-    
-    /*leave room for the larger thumb to overflow with a transparent border */
-    border-color: transparent;
-    border-width: 6px 0;
-
-    /*remove default tick marks*/
-    color: transparent;
-}
-input[type=range]::-ms-fill-lower {
-    background: #777;
-    border-radius: 10px;
-}
-input[type=range]::-ms-fill-upper {
-    background: #ddd;
-    border-radius: 10px;
-}
-input[type=range]::-ms-thumb {
-    border: none;
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    background: goldenrod;
-}
-input[type=range]:focus::-ms-fill-lower {
-    background: #888;
-}
-input[type=range]:focus::-ms-fill-upper {
-    background: #ccc;
-}
-</style>
+    <meta charset="utf-8">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <style>
+        .country {
+            fill: #ccc;
+            stroke: #fff;
+            stroke-width: .5px;
+            stroke-linejoin: round;
+        }
+        
+        .graticule {
+            fill: none;
+            stroke: #000;
+            stroke-opacity: .3;
+            stroke-width: .5px;
+        }
+        
+        .graticule.outline {
+            stroke: #333;
+            stroke-opacity: 1;
+            stroke-width: 1.5px;
+        }
+        
+        #nRadius-value {
+            font-size: 40px;
+        }
+        
+        div.tooltip {
+            position: absolute;
+            text-align: center;
+            width: 150px;
+            height: 130px;
+            padding: 2px;
+            font-size: 15px;
+            background: white;
+            border: 1px;
+            border-radius: 4px;
+            pointer-events: none;
+            color: #000;
+        }
+        
+        #USImport {
+            fill: lightsteelblue;
+        }
+        
+        #USExport {
+            fill: lightsteelblue;
+        }
+        
+        #CountryGDP {
+            fill: lightsteelblue;
+        }
+        
+        #mainButton {
+            margin-left: 30%;
+        }
+        
+        input[type=range] {
+            /*removes default webkit styles*/
+            
+            -webkit-appearance: none;
+            /*fix for FF unable to apply focus style bug */
+            
+            border: 1px solid white;
+            /*required for proper track sizing in FF*/
+            
+            width: 500px;
+            margin-left: 20%;
+        }
+        
+        input[type=range]::-webkit-slider-runnable-track {
+            width: 300px;
+            height: 5px;
+            background: #ddd;
+            border: none;
+            border-radius: 3px;
+        }
+        
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            border: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: goldenrod;
+            margin-top: -4px;
+        }
+        
+        input[type=range]:focus {
+            outline: none;
+        }
+        
+        input[type=range]:focus::-webkit-slider-runnable-track {
+            background: #ccc;
+        }
+        
+        input[type=range]::-moz-range-track {
+            width: 500px;
+            height: 5px;
+            background: #ddd;
+            border: none;
+            border-radius: 3px;
+        }
+        
+        input[type=range]::-moz-range-thumb {
+            border: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: goldenrod;
+        }
+        /*hide the outline behind the border*/
+        
+        input[type=range]:-moz-focusring {
+            outline: 1px solid white;
+            outline-offset: -1px;
+        }
+        
+        input[type=range]::-ms-track {
+            width: 300px;
+            height: 5px;
+            /*remove bg colour from the track, we'll use ms-fill-lower and ms-fill-upper instead */
+            
+            background: transparent;
+            /*leave room for the larger thumb to overflow with a transparent border */
+            
+            border-color: transparent;
+            border-width: 6px 0;
+            /*remove default tick marks*/
+            
+            color: transparent;
+        }
+        
+        input[type=range]::-ms-fill-lower {
+            background: #777;
+            border-radius: 10px;
+        }
+        
+        input[type=range]::-ms-fill-upper {
+            background: #ddd;
+            border-radius: 10px;
+        }
+        
+        input[type=range]::-ms-thumb {
+            border: none;
+            height: 16px;
+            width: 16px;
+            border-radius: 50%;
+            background: goldenrod;
+        }
+        
+        input[type=range]:focus::-ms-fill-lower {
+            background: #888;
+        }
+        
+        input[type=range]:focus::-ms-fill-upper {
+            background: #ccc;
+        }
+        .legend {
+            margin-top:-100px;
+        }
+    </style>
 </head>
+
 <body>
-<script src="http://d3js.org/d3.v3.min.js"></script>
-<script src="http://d3js.org/queue.v1.min.js"></script>
-<script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
-<script src="http://d3js.org/topojson.v1.min.js"></script>
-<input type="range" min="2006" max="2013" step="1" id="nRadius">
-<label for="nRadius" style="display: inline-block; width: 240px; text-align: right">
-<span id="nRadius-value">…</span>
-</label>
-<svg height="85" width="300" id="mainButton">
-  <circle id="USImport" cx="50" cy="50" r="30" />
-  <circle id="USExport" cx="150" cy="50" r="30" />
-  <circle id="CountryGDP" cx="250" cy="50" r="30" />
-  <text x="50" y="50" font-size="15px" fill="black" text-anchor="middle">Import</text>
-  <text x="150" y="50" font-size="15px" fill="black" text-anchor="middle">Export</text>
-  <text x="250" y="50" font-size="15px" fill="black" text-anchor="middle">%ofGDP</text>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="http://d3js.org/queue.v1.min.js"></script>
+    <script src="http://d3js.org/d3.geo.projection.v0.min.js"></script>
+    <script src="http://d3js.org/topojson.v1.min.js"></script>
+    <h1 align="center">U.S. Tourism Visualisation</h1>
+    <h5 align="center">*"Import" shows information for people travel to U.S. <br/>
+*"Export" shows information for U.S. citizens travel to the world. <br/>
+*%ofGDP shows tourism contributes to GDP.<br/> *population data represents hundred thousand </h5>
+   <svg style = "float:right" width:"200" height:"150">
+       <image xlink:href="resources/images/vacation.png" x="50" y="0" height="25px" width="25px"/><text x="80" y="15">Vacation</text>
+	<image xlink:href="resources/images/visit_friends.png" x="50" y="25" height="25px" width="25px"/><text x="80" y="40">Visit friends</text>
+	<image xlink:href="resources/images/business.png" x="50" y="50" height="25px" width="25px"/><text x="80" y="65">Business</text>
+	<image xlink:href="resources/images/education.png" x="50" y="75" height="25px" width="25px"/><text x="80" y="90">Education</text>
+	<image xlink:href="resources/images/unknown.png" x="50" y="100" height="25px" width="25px"/><text x="80" y="115">Unknown</text>
 </svg>
-<!-- purpose button -->
-<input type="button" value="Purpose" id="purposebutton">
-<script>
-var width = 960,
-    height = 500;
-    
-var projection = d3.geo.naturalEarth()
-    .scale(167)
-    .translate([width / 2, height / 2])
-    .precision(.1);
+    <input type="range" min="2006" max="2013" step="1" id="nRadius">
+    <label for="nRadius" style="display: inline-block; width: 240px; text-align: right">
+        <span id="nRadius-value">…</span>
+    </label>
 
-var path = d3.geo.path()
-    .projection(projection);
+    <svg height="85" width="300" id="mainButton">
+        <circle id="USImport" cx="50" cy="50" r="30" />
+        <circle id="USExport" cx="150" cy="50" r="30" />
+        <circle id="CountryGDP" cx="250" cy="50" r="30" />
+        <text x="50" y="50" font-size="15px" fill="black" text-anchor="middle">Import</text>
+        <text x="150" y="50" font-size="15px" fill="black" text-anchor="middle">Export</text>
+        <text x="250" y="50" font-size="15px" fill="black" text-anchor="middle">%ofGDP</text>
+    </svg>
+    <!-- purpose button -->
+    <input type="button" value="Hide Purpose" id="purposebutton">
+    <script>
+        var width = 960,
+            height = 500;
 
-var svg = d3.select("body").append("svg")
-    .attr("width", width)
-    .attr("height", height);
-    
-    var div = d3.select("body").append("div")
-							.attr("class", "tooltip")
-							.style("opacity", 0);
+        var projection = d3.geo.naturalEarth()
+            .scale(167)
+            .translate([width / 2, height / 2])
+            .precision(.1);
 
- var flag = {
+        var path = d3.geo.path()
+            .projection(projection);
 
-                "vacation": 'resources/images/vacation.png',
+        var svg = d3.select("body").append("svg")
+            .attr("width", width)
+            .attr("height", height);
 
-                "visit_friends": 'resources/images/visit_friends.png',
+        var div = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
 
-                "business": 'resources/images/business.png',
+        var flag = {
 
-                "education": 'resources/images/education.png',
-                }
- 
- queue()
-    .defer(d3.json, "world-50m.json")
-    .defer(d3.json, "final_json.json")
-    .await(ready);
-$("#USImport").on("click",function(){
-		$("#USImport").css("fill","lightskyblue");
-		$("#USImport").css("stroke","black");
-		$("#USImport").css("stroke-width","1");
-			queue()
-				.defer(d3.json, "world-50m.json")
-				.defer(d3.json, "final_json.json")
-				.await(ready);
-});	
-function ready(error, world, final) {
-       
-	var color = d3.scale.linear()
-    .domain([d3.min(final,function(d){return d.y2006.population;}), d3.max(final,function(d){return d.y2006.population})])
-    .range(["#0ca454", "#de1f2e"])
-    .clamp(true)
-    .interpolate(d3.interpolateHcl);
-	
-    var treatiesById = d3.nest()
-      .key(function(d) { 
-          return d.id; })
-      .sortValues(function(a, b) { return a.y2006.population - b.y2006.population; })
-      .map(final, d3.map);
+            "vacation": 'resources/images/vacation.png',
 
-  var country = svg.insert("g", ".graticule")
-      .attr("class", "country")
-    .selectAll("path")
-      .data(topojson.feature(world, world.objects.countries).features)
-    .enter().append("path")
-      .attr("d", path);
-	  
-  country.filter(function(d) { return treatiesById.has(d.id); })
-      .style("fill", function(d) { 
-		return color(treatiesById.get(d.id)[0].y2006.population); 
-	});
-	
-    svg.selectAll("image")
-                    .data(final)
-                    .enter()
-                    .append("image")
-					.attr("class","purpose")
-                    .attr("xlink:href", function(d) {
-						var purpose_percentage = [["vacation", d.y2006.vacation], ["visit_friends", d.y2006.visit_friends], ["business", d.y2006.business], ["education", d.y2006.education]];
-						purpose_percentage.sort(function(a, b){return b[1]-a[1]});
-					return flag[purpose_percentage[0][0]];
+            "visit_friends": 'resources/images/visit_friends.png',
+
+            "business": 'resources/images/business.png',
+
+            "education": 'resources/images/education.png',
+
+            "unknown": 'resources/images/unknown.png'
+        }
+
+        queue()
+            .defer(d3.json, "world-50m.json")
+            .defer(d3.json, "final_json.json")
+            .await(ready);
+        $("#USImport").on("click", function () {
+            $("#USImport").css("fill", "lightskyblue");
+            $("#USImport").css("stroke", "black");
+            $("#USImport").css("stroke-width", "1");
+            queue()
+                .defer(d3.json, "world-50m.json")
+                .defer(d3.json, "final_json.json")
+                .await(ready);
+        });
+
+        function ready(error, world, final) {
+        var ext_color_domain = [d3.min(final, function (d) {
+                    return d.y2006.population;
+                }), d3.max(final, function (d) {
+                    return d.y2006.population
+                })];
+         var legend_labels = ["lowest","highest"];
+            var color = d3.scale.linear()
+                .domain([d3.min(final, function (d) {
+                    return d.y2006.population;
+                }), d3.max(final, function (d) {
+                    return d.y2006.population
+                })])
+                .range(["#0ca454", "#de1f2e"])
+                .clamp(true)
+                .interpolate(d3.interpolateHcl);
+
+            var treatiesById = d3.nest()
+                .key(function (d) {
+                    return d.id;
                 })
-                    .attr("x", function (d) {
-                        return projection([d.lon, d.lat])[0]-11;
-                    })
-                    .attr("y", function (d) {
-                        return projection([d.lon, d.lat])[1]-30;
-                    })
-                    .attr("width", "30")
-                    .attr("height", "30")
-					.on("mouseover", function(d) {
-							d3.select(this).transition().duration(300).style("opacity", 1);
-							div.transition().duration(300)
-							   .style("opacity", 1)
-							div.html("<span style=color:#cc0000;font-size:20px>" + d.name + "</span>" + 
-							"<br/>" + "<span style=color:#000>Population</span>" + ":" + d.y2006.population + 
-							"<br/>" + "<span style=color:#000>Vacation</span>" + ":" + d.y2006.vacation + "%" +
-							"<br/>" + "<span style=color:#000>Visit Friends</span>" + ":" + d.y2006.visit_friends + "%" +
-							"<br/>" + "<span style=color:#000>Business</span>" + ":" + d.y2006.business + "%" +
-							"<br/>" + "<span style=color:#000>Education</span>" + ":" + d.y2006.education + "%")
-							   .style("left","65%")
-							   .style("top", "100px");
-                        })
-							   .on("mouseout", function() {
-                            d3.select(this)
-                              .transition().duration(300)
-                              .style("opacity", 0.8);
-                            div.transition().duration(300)
-                               .style("opacity", 0);
-                        });
-				d3.select("#nRadius-value").text("2006");
-				d3.select("#nRadius").property("value", "2006");
-				
-				
-d3.select("#nRadius").on("input", function() {
-	updatevis(final,+this.value);
-}); 
+                .sortValues(function (a, b) {
+                    return a.y2006.population - b.y2006.population;
+                })
+                .map(final, d3.map);
 
-// may be we can use this for purpose !?? 
-d3.select("#purposebutton").on("click",function(){
-	svg.selectAll(".purpose").remove();
-	/*var selectedyear = $("#nRadius-value").text();
-	updatevisByPurpose(final,selectedyear,1);*/
-	}); 
+            var country = svg.insert("g", ".graticule")
+                .attr("class", "country")
+                .selectAll("path")
+                .data(topojson.feature(world, world.objects.countries).features)
+                .enter().append("path")
+                .attr("d", path);
 
-/*	function updatevisByPurpose(data,year,type){
-	console.log(year);
-	console.log(type);
-		svg.selectAll("image")
-				.attr("class","purpose")
-			   .attr("xlink:href", function(d) {
-					var purpose_percentage;
-					if(type==1){
-					switch(year){
-					case 2006:
-						purpose_percentage = [["vacation", d.y2006.vacation]];
-					break;
-					case 2007:
-						purpose_percentage = [["vacation", d.y2007.vacation]];
-					break;
-					case 2008:
-						purpose_percentage = [["vacation", d.y2008.vacation]];
-					break;
-					case 2009:
-						purpose_percentage = [["vacation", d.y2009.vacation]];
-					break
-					case 2010:
-						purpose_percentage = [["vacation", d.y2010.vacation]];
-					break;
-					case 2011:
-						purpose_percentage = [["vacation", d.y2011.vacation]];
-					break;
-					case 2012:
-						purpose_percentage = [["vacation", d.y2012.vacation]];
-					break;
-					case 2013:
-						purpose_percentage = [["vacation", d.y2013.vacation]];
-					break;
-					}
-					purpose_percentage.sort(function(a, b){return b[1]-a[1]});
-                    return flag[purpose_percentage[0][0]];
-				}
+            country.filter(function (d) {
+                    return treatiesById.has(d.id);
+                })
+                .style("fill", function (d) {
+                    return color(treatiesById.get(d.id)[0].y2006.population);
                 });
-	}*/
-    function updatevis(data,year)
-		{
-			 country.filter(function(d) { return treatiesById.has(d.id); })
-      .style("fill", function(d) { 
-			switch(year){
-					case 2006:
-						return color(treatiesById.get(d.id)[0].y2006.population); 
-					break;
-					case 2007:
-						return color(treatiesById.get(d.id)[0].y2007.population); 						
-					break;
-					case 2008:
-						return color(treatiesById.get(d.id)[0].y2008.population); 
-					break;
-					case 2009:
-						return color(treatiesById.get(d.id)[0].y2009.population); 
-					break;
-					case 2010:
-						return color(treatiesById.get(d.id)[0].y2010.population); 
-					break;
-					case 2011:
-						return color(treatiesById.get(d.id)[0].y2011.population); 
-					break;
-					case 2012:
-						return color(treatiesById.get(d.id)[0].y2012.population); 
-					break;
-					case 2013:
-						return color(treatiesById.get(d.id)[0].y2013.population); 
-					break;
-				}
-	  });
-			
-			svg.selectAll("image")
-				.attr("class","purpose")
-			   .attr("xlink:href", function(d) {
-					var purpose_percentage;
-					switch(year){
-					case 2006:
-						purpose_percentage = [["vacation", d.y2006.vacation], ["visit_friends", d.y2006.visit_friends], ["business", d.y2006.business], ["education", d.y2006.education]];
-					break;
-					case 2007:
-						purpose_percentage = [["vacation", d.y2007.vacation], ["visit_friends", d.y2007.visit_friends], ["business", d.y2007.business], ["education", d.y2007.education]];
-					break;
-					case 2008:
-						purpose_percentage = [["vacation", d.y2008.vacation], ["visit_friends", d.y2008.visit_friends], ["business", d.y2008.business], ["education", d.y2008.education]];
-					break;
-					case 2009:
-						purpose_percentage = [["vacation", d.y2009.vacation], ["visit_friends", d.y2009.visit_friends], ["business", d.y2009.business], ["education", d.y2009.education]];
-					break
-					case 2010:
-						purpose_percentage = [["vacation", d.y2010.vacation], ["visit_friends", d.y2010.visit_friends], ["business", d.y2010.business], ["education", d.y2010.education]];
-					break;
-					case 2011:
-						purpose_percentage = [["vacation", d.y2011.vacation], ["visit_friends", d.y2011.visit_friends], ["business", d.y2011.business], ["education", d.y2011.education]];
-					break;
-					case 2012:
-						purpose_percentage = [["vacation", d.y2012.vacation], ["visit_friends", d.y2012.visit_friends], ["business", d.y2012.business], ["education", d.y2012.education]];
-					break;
-					case 2013:
-						purpose_percentage = [["vacation", d.y2013.vacation], ["visit_friends", d.y2013.visit_friends], ["business", d.y2013.business], ["education", d.y2013.education]];
-					break;
-					}
-					purpose_percentage.sort(function(a, b){return b[1]-a[1]});
-                    return flag[purpose_percentage[0][0]];
-                });
-			d3.select("#nRadius-value").text(year);
-			d3.select("#nRadius").property("value", year);
-		}
-		
-		$("#USExport").on("click",function(){
-			$("#USExport").css("fill","lightskyblue");
-			$("#USExport").css("stroke","black");
-			$("#USExport").css("stroke-width","1");
-			queue()
-				.defer(d3.json, "world-50m.json")
-				.defer(d3.json, "outbound_json.json")
-				.await(drawExportVisualization);
-		});
-		$("#CountryGDP").on("click",function(){
-			$("#CountryGDP").css("fill","lightskyblue");
-			$("#CountryGDP").css("stroke","black");
-			$("#CountryGDP").css("stroke-width","1");
-			queue()
-				.defer(d3.json, "world-50m.json")
-				.defer(d3.csv, "WORLD_GDP_DATA.csv")
-				.await(drawGDPVisualization);
-		});
-		function drawExportVisualization(error,world,exportdata){
-		
-			svg.selectAll(".purpose").remove();
-			var color = d3.scale.linear()
-						.domain([20,100,10000,100000])
-						.range(["#de1f2e", "#ffa07a", "#0ca454"])
-						.clamp(true)
-						.interpolate(d3.interpolateHcl);
-	
-			var populationById = d3.nest()
-								 .key(function(d) { 
-										return d.id; })
-								.sortValues(function(a, b) { return a.y2006 - b.y2006; })
-								.map(exportdata, d3.map);
-			
-			var country = svg.insert("g", ".graticule")
-							.attr("class", "country")
-							.selectAll("path")
-							.data(topojson.feature(world, world.objects.countries).features)
-							.enter().append("path")
-							.attr("d", path);
-	  
-			country.filter(function(d) { return populationById.has(d.id); })
-					.style("fill", function(d) { 
-						return color(populationById.get(d.id)[0].y2006); 
-				})
-				.on("mouseover", function(d) {
-							d3.select(this).transition().duration(300).style("opacity", 1);
-							div.transition().duration(300)
-							   .style("opacity", 1)
-							div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" + 
-							"<br/>" + "<span style=color:#000>Population</span>" + ":" +populationById.get(d.id)[0].y2006)
-							   .style("left","65%")
-							   .style("top", "100px");
-                        })
-							   .on("mouseout", function() {
-                            d3.select(this)
-                              .transition().duration(300)
-                              .style("opacity", 0.8);
-                            div.transition().duration(300)
-                               .style("opacity", 0);
-                        });
-			
-			d3.select("#nRadius").on("input", function() {
-				updateExportVis(exportdata,+this.value);
-			});
-			
-			function updateExportVis(exportdata,year){
-			
-				d3.select("#nRadius-value").text(year);
-				d3.select("#nRadius").property("value", year);
-				
-					 country.filter(function(d) { return populationById.has(d.id); })
-							.style("fill", function(d) { 
-			switch(year){
-					case 2006:
-						return color(populationById.get(d.id)[0].y2006); 
-					break;
-					case 2007:
-						return color(populationById.get(d.id)[0].y2007); 						
-					break;
-					case 2008:
-						return color(populationById.get(d.id)[0].y2008); 
-					break;
-					case 2009:
-						return color(populationById.get(d.id)[0].y2009); 
-					break;
-					case 2010:
-						return color(populationById.get(d.id)[0].y2010); 
-					break;
-					case 2011:
-						return color(populationById.get(d.id)[0].y2011); 
-					break;
-					case 2012:
-						return color(populationById.get(d.id)[0].y2012); 
-					break;
-					case 2013:
-						return color(populationById.get(d.id)[0].y2013); 
-					break;
-				}
-	  })
-	  .on("mouseover", function(d) {
-		d3.select(this).transition().duration(300).style("opacity", 1);
-		div.transition().duration(300)
-			.style("opacity", 1)
-			.style("left","65%")
-			.style("top", "100px");
-		switch(year){
-			case 2006:
-				div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>Population</span>" + ":" +populationById.get(d.id)[0].y2006)
-			break;
-			case 2007:
-				div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>Population</span>" + ":" +populationById.get(d.id)[0].y2007)						
-			break;
-			case 2008:
-				div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>Population</span>" + ":" +populationById.get(d.id)[0].y2008)
-			break;
-			case 2009:
-				div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>Population</span>" + ":" +populationById.get(d.id)[0].y2009)
-			break;
-			case 2010:
-				div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>Population</span>" + ":" +populationById.get(d.id)[0].y2010) 
-			break;
-			case 2011:
-				div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>Population</span>" + ":" +populationById.get(d.id)[0].y2011) 
-			break;
-			case 2012:
-				div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>Population</span>" + ":" +populationById.get(d.id)[0].y2012)
-			break;
-			case 2013:
-				div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>Population</span>" + ":" +populationById.get(d.id)[0].y2013)
-			break;
-			}
-			})
-		.on("mouseout", function() {
-            d3.select(this)
-              .transition().duration(300)
-              .style("opacity", 0.8);
-            div.transition().duration(300)
-               .style("opacity", 0);
-        });
-	}
-}
-		
-		function drawGDPVisualization(error,world,GDPdata){
-			svg.selectAll(".purpose").remove();
-			var color = d3.scale.linear()
-						.domain([0,10,15,20])
-						.range(["#de1f2e", "#ffa07a", "#0ca454"])
-						.clamp(true)
-						.interpolate(d3.interpolateHcl);
-	
-			var GDPById = d3.nest()
-							.key(function(d) { 
-								return d.id; })
-							.sortValues(function(a, b) { return a.y2006 - b.y2006; })
-							.map(GDPdata, d3.map);
-			
-			var country = svg.insert("g", ".graticule")
-							.attr("class", "country")
-							.selectAll("path")
-							.data(topojson.feature(world, world.objects.countries).features)
-							.enter().append("path")
-							.attr("d", path);
-	  
-			country.filter(function(d) { return GDPById.has(d.id); })
-					.style("fill", function(d) { 
-						return color(GDPById.get(d.id)[0].y2006); 
-				})
-					.on("mouseover", function(d) {
-							d3.select(this).transition().duration(300).style("opacity", 1);
-							div.transition().duration(300)
-							   .style("opacity", 1)
-							div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" + 
-							"<br/>" + "<span style=color:#000>GDP</span>" + ":" +GDPById.get(d.id)[0].y2006 + "%")
-							   .style("left","65%")
-							   .style("top", "100px");
-                        })
-							   .on("mouseout", function() {
-                            d3.select(this)
-                              .transition().duration(300)
-                              .style("opacity", 0.8);
-                            div.transition().duration(300)
-                               .style("opacity", 0);
-                        });
-			
-			d3.select("#nRadius").on("input", function() {
-				updateGDPVis(GDPdata,+this.value);
-			});
-			
-			function updateGDPVis(GDPdata,year){
-			
-				d3.select("#nRadius-value").text(year);
-				d3.select("#nRadius").property("value", year);
-				
-					 country.filter(function(d) { return GDPById.has(d.id); })
-							.style("fill", function(d) { 
-					switch(year){
-						case 2006:
-							return color(GDPById.get(d.id)[0].y2006); 
-						break;
-						case 2007:
-							return color(GDPById.get(d.id)[0].y2007); 						
-						break;
-						case 2008:
-							return color(GDPById.get(d.id)[0].y2008); 
-						break;
-						case 2009:
-							return color(GDPById.get(d.id)[0].y2009); 
-						break;
-						case 2010:
-							return color(GDPById.get(d.id)[0].y2010); 
-						break;
-						case 2011:
-							return color(GDPById.get(d.id)[0].y2011); 
-						break;
-						case 2012:
-							return color(GDPById.get(d.id)[0].y2012); 
-						break;
-						case 2013:
-							return color(GDPById.get(d.id)[0].y2013); 
-						break;
-					}
-				})
-				  .on("mouseover", function(d) {
-		d3.select(this).transition().duration(300).style("opacity", 1);
-		div.transition().duration(300)
-			.style("opacity", 1)
-			.style("left","65%")
-			.style("top", "100px");
-		switch(year){
-			case 2006:
-				div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>% of GDP</span>" + ":" +GDPById.get(d.id)[0].y2006 + "%")
-			break;
-			case 2007:
-				div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>% of GDP</span>" + ":" +GDPById.get(d.id)[0].y2007 + "%")						
-			break;
-			case 2008:
-				div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>% of GDP</span>" + ":" +GDPById.get(d.id)[0].y2008 + "%")
-			break;
-			case 2009:
-				div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>% of GDP</span>" + ":" +GDPById.get(d.id)[0].y2009 + "%")
-			break;
-			case 2010:
-				div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>% of GDP</span>" + ":" +GDPById.get(d.id)[0].y2010 + "%") 
-			break;
-			case 2011:
-				div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>% of GDP</span>" + ":" +GDPById.get(d.id)[0].y2011 + "%") 
-			break;
-			case 2012:
-				div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>% of GDP</span>" + ":" +GDPById.get(d.id)[0].y2012 + "%")
-			break;
-			case 2013:
-				div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>% of GDP</span>" + ":" +GDPById.get(d.id)[0].y2013 + "%")
-			break;
-			}
-			})
-		.on("mouseout", function() {
-            d3.select(this)
-              .transition().duration(300)
-              .style("opacity", 0.8);
-            div.transition().duration(300)
-               .style("opacity", 0);
-        });
-	}
-}
-}
-</script>
 
-    </body>
+            svg.selectAll("image")
+                .data(final)
+                .enter()
+                .append("image")
+                .attr("class", "purpose")
+                .attr("xlink:href", function (d) {
+                    var purpose_percentage = [["vacation", d.y2006.vacation], ["visit_friends", d.y2006.visit_friends], ["business", d.y2006.business], ["education", d.y2006.education]];
+                    purpose_percentage.sort(function (a, b) {
+                        return b[1] - a[1]
+                    });
+                    if (purpose_percentage[0][1] != null)
+                        return flag[purpose_percentage[0][0]];
+                    else return flag['unknown'];
+                })
+                .attr("x", function (d) {
+                    return projection([d.lon, d.lat])[0] - 11;
+                })
+                .attr("y", function (d) {
+                    return projection([d.lon, d.lat])[1] - 30;
+                })
+                .attr("width", "30")
+                .attr("height", "30")
+                .on("mouseover", function (d) {
+                    d3.select(this).transition().duration(300).style("opacity", 1);
+                    div.transition().duration(300)
+                        .style("opacity", 1)
+                    div.html("<span style=color:#cc0000;font-size:20px>" + d.name + "</span>" +
+                            "<br/>" + "<span style=color:#000>Population</span>" + ":" + d.y2006.population +
+                            "<br/>" + "<span style=color:#000>Vacation</span>" + ":" + d.y2006.vacation + "%" +
+                            "<br/>" + "<span style=color:#000>Visit Friends</span>" + ":" + d.y2006.visit_friends + "%" +
+                            "<br/>" + "<span style=color:#000>Business</span>" + ":" + d.y2006.business + "%" +
+                            "<br/>" + "<span style=color:#000>Education</span>" + ":" + d.y2006.education + "%")
+                        .style("left", "65%")
+                        .style("top", "200px");
+                })
+                .on("mouseout", function () {
+                    d3.select(this)
+                        .transition().duration(300)
+                        .style("opacity", 0.8);
+                    div.transition().duration(300)
+                        .style("opacity", 0);
+                });
+            d3.select("#nRadius-value").text("2006");
+            d3.select("#nRadius").property("value", "2006");
+
+
+            d3.select("#nRadius").on("input", function () {
+                updatevis(final, +this.value);
+            });
+var legend = svg.selectAll("g.legend")
+ .data(ext_color_domain)
+ .enter().append("g")
+ .attr("class", "legend");
+ 
+var ls_w = 20, ls_h = 20;
+ 
+legend.append("rect")
+ .attr("x", 20)
+ .attr("y", function(d, i){ return height - (i*ls_h) - 2*ls_h;})
+ .attr("width", ls_w)
+ .attr("height", ls_h)
+ .style("fill", function(d, i) { return color(d); })
+ .style("opacity", 0.8);
+ 
+legend.append("text")
+ .attr("x", 50)
+ .attr("y", function(d, i){ return height - (i*ls_h) - ls_h - 4;})
+ .text(function(d, i){ return legend_labels[i]; });
+ 
+            // may be we can use this for purpose !?? 
+            d3.select("#purposebutton").on("click", function () {
+                svg.selectAll(".purpose").remove();
+            });
+
+            function updatevis(data, year) {
+                country.filter(function (d) {
+                        return treatiesById.has(d.id);
+                    })
+                    .style("fill", function (d) {
+                        switch (year) {
+                        case 2006:
+                            return color(treatiesById.get(d.id)[0].y2006.population);
+                            break;
+                        case 2007:
+                            return color(treatiesById.get(d.id)[0].y2007.population);
+                            break;
+                        case 2008:
+                            return color(treatiesById.get(d.id)[0].y2008.population);
+                            break;
+                        case 2009:
+                            return color(treatiesById.get(d.id)[0].y2009.population);
+                            break;
+                        case 2010:
+                            return color(treatiesById.get(d.id)[0].y2010.population);
+                            break;
+                        case 2011:
+                            return color(treatiesById.get(d.id)[0].y2011.population);
+                            break;
+                        case 2012:
+                            return color(treatiesById.get(d.id)[0].y2012.population);
+                            break;
+                        case 2013:
+                            return color(treatiesById.get(d.id)[0].y2013.population);
+                            break;
+                        }
+                    });
+
+                svg.selectAll("image")
+                    .attr("class", "purpose")
+                    .attr("xlink:href", function (d) {
+                        var purpose_percentage;
+                        switch (year) {
+                        case 2006:
+                            purpose_percentage = [["vacation", d.y2006.vacation], ["visit_friends", d.y2006.visit_friends], ["business", d.y2006.business], ["education", d.y2006.education]];
+                            break;
+                        case 2007:
+                            purpose_percentage = [["vacation", d.y2007.vacation], ["visit_friends", d.y2007.visit_friends], ["business", d.y2007.business], ["education", d.y2007.education]];
+                            break;
+                        case 2008:
+                            purpose_percentage = [["vacation", d.y2008.vacation], ["visit_friends", d.y2008.visit_friends], ["business", d.y2008.business], ["education", d.y2008.education]];
+                            break;
+                        case 2009:
+                            purpose_percentage = [["vacation", d.y2009.vacation], ["visit_friends", d.y2009.visit_friends], ["business", d.y2009.business], ["education", d.y2009.education]];
+                            break
+                        case 2010:
+                            purpose_percentage = [["vacation", d.y2010.vacation], ["visit_friends", d.y2010.visit_friends], ["business", d.y2010.business], ["education", d.y2010.education]];
+                            break;
+                        case 2011:
+                            purpose_percentage = [["vacation", d.y2011.vacation], ["visit_friends", d.y2011.visit_friends], ["business", d.y2011.business], ["education", d.y2011.education]];
+                            break;
+                        case 2012:
+                            purpose_percentage = [["vacation", d.y2012.vacation], ["visit_friends", d.y2012.visit_friends], ["business", d.y2012.business], ["education", d.y2012.education]];
+                            break;
+                        case 2013:
+                            purpose_percentage = [["vacation", d.y2013.vacation], ["visit_friends", d.y2013.visit_friends], ["business", d.y2013.business], ["education", d.y2013.education]];
+                            break;
+                        }
+                        purpose_percentage.sort(function (a, b) {
+                            return b[1] - a[1]
+                        });
+                        if (purpose_percentage[0][1] != null)
+                            return flag[purpose_percentage[0][0]];
+                        else return flag['unknown'];
+                    });
+                d3.select("#nRadius-value").text(year);
+                d3.select("#nRadius").property("value", year);
+            }
+
+            $("#USExport").on("click", function () {
+                $("#USExport").css("fill", "lightskyblue");
+                $("#USExport").css("stroke", "black");
+                $("#USExport").css("stroke-width", "1");
+                queue()
+                    .defer(d3.json, "world-50m.json")
+                    .defer(d3.json, "outbound_json.json")
+                    .await(drawExportVisualization);
+            });
+            $("#CountryGDP").on("click", function () {
+                $("#CountryGDP").css("fill", "lightskyblue");
+                $("#CountryGDP").css("stroke", "black");
+                $("#CountryGDP").css("stroke-width", "1");
+                queue()
+                    .defer(d3.json, "world-50m.json")
+                    .defer(d3.csv, "WORLD_GDP_DATA.csv")
+                    .await(drawGDPVisualization);
+            });
+
+            function drawExportVisualization(error, world, exportdata) {
+
+                svg.selectAll(".purpose").remove();
+                var color = d3.scale.linear()
+                    .domain([20, 100, 10000, 100000])
+                    .range(["#de1f2e", "#ffa07a", "#0ca454"])
+                    .clamp(true)
+                    .interpolate(d3.interpolateHcl);
+
+                var populationById = d3.nest()
+                    .key(function (d) {
+                        return d.id;
+                    })
+                    .sortValues(function (a, b) {
+                        return a.y2006 - b.y2006;
+                    })
+                    .map(exportdata, d3.map);
+
+                var country = svg.insert("g", ".graticule")
+                    .attr("class", "country")
+                    .selectAll("path")
+                    .data(topojson.feature(world, world.objects.countries).features)
+                    .enter().append("path")
+                    .attr("d", path);
+
+                country.filter(function (d) {
+                        return populationById.has(d.id);
+                    })
+                    .style("fill", function (d) {
+                    if (populationById.get(d.id)[0].y2006 == null)
+                        return "#cccccc";
+                    else 
+                        return color(populationById.get(d.id)[0].y2006);
+                    
+                    })
+                    .on("mouseover", function (d) {
+                        d3.select(this).transition().duration(300).style("opacity", 1);
+                        div.transition().duration(300)
+                            .style("opacity", 1)
+                        div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" +
+                                "<br/>" + "<span style=color:#000>Population</span>" + ":" + populationById.get(d.id)[0].y2006)
+                            .style("left", "65%")
+                            .style("top", "200px");
+                    })
+                    .on("mouseout", function () {
+                        d3.select(this)
+                            .transition().duration(300)
+                            .style("opacity", 1);
+                        div.transition().duration(300)
+                            .style("opacity", 0);
+                    });
+
+                d3.select("#nRadius").on("input", function () {
+                    updateExportVis(exportdata, +this.value);
+                });
+
+                function updateExportVis(exportdata, year) {
+
+                    d3.select("#nRadius-value").text(year);
+                    d3.select("#nRadius").property("value", year);
+
+                    country.filter(function (d) {
+                            return populationById.has(d.id);
+                        })
+                        .style("fill", function (d) {
+                            switch (year) {
+                            case 2006:
+                                if(!populationById.get(d.id)[0].y2006 || populationById.get(d.id)[0].y2006==null) {return "#cccccc";}
+                                return color(populationById.get(d.id)[0].y2006);
+                                break;
+                            case 2007:
+                                    if(!populationById.get(d.id)[0].y2007 || populationById.get(d.id)[0].y2007==null) {return "#cccccc";}
+                                return color(populationById.get(d.id)[0].y2007);
+                                break;
+                            case 2008:
+                                    if(!populationById.get(d.id)[0].y2008 || populationById.get(d.id)[0].y2008==null) {return "#cccccc";}
+                                return color(populationById.get(d.id)[0].y2008);
+                                break;
+                            case 2009:
+                                    if(!populationById.get(d.id)[0].y2009 || populationById.get(d.id)[0].y2009==null) {return "#cccccc";}
+                                return color(populationById.get(d.id)[0].y2009);
+                                break;
+                            case 2010:
+                                    if(!populationById.get(d.id)[0].y2010 || populationById.get(d.id)[0].y2010==null) {return "#cccccc";}
+                                return color(populationById.get(d.id)[0].y2010);
+                                break;
+                            case 2011:
+                                    if(!populationById.get(d.id)[0].y2011 || populationById.get(d.id)[0].y2011==null) {return "#cccccc";}
+                                return color(populationById.get(d.id)[0].y2011);
+                                break;
+                            case 2012:
+                                    if(!populationById.get(d.id)[0].y2012 || populationById.get(d.id)[0].y2012==null) {return "#cccccc";}
+                                return color(populationById.get(d.id)[0].y2012);
+                                break;
+                            case 2013:
+                                    if(!populationById.get(d.id)[0].y2013) {return "#cccccc";}
+                                return color(populationById.get(d.id)[0].y2013);
+                                break;
+                            }
+                        })
+                        .on("mouseover", function (d) {
+                            d3.select(this).transition().duration(300).style("opacity", 1);
+                            div.transition().duration(300)
+                                .style("opacity", 1)
+                                .style("left", "65%")
+                                .style("top", "200px");
+                            switch (year) {
+                            case 2006:
+                                div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" +
+                                    "<br/>" + "<span style=color:#000>Population</span>" + ":" + populationById.get(d.id)[0].y2006)
+                                break;
+                            case 2007:
+                                div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" +
+                                    "<br/>" + "<span style=color:#000>Population</span>" + ":" + populationById.get(d.id)[0].y2007)
+                                break;
+                            case 2008:
+                                div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" +
+                                    "<br/>" + "<span style=color:#000>Population</span>" + ":" + populationById.get(d.id)[0].y2008)
+                                break;
+                            case 2009:
+                                div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" +
+                                    "<br/>" + "<span style=color:#000>Population</span>" + ":" + populationById.get(d.id)[0].y2009)
+                                break;
+                            case 2010:
+                                div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" +
+                                    "<br/>" + "<span style=color:#000>Population</span>" + ":" + populationById.get(d.id)[0].y2010)
+                                break;
+                            case 2011:
+                                div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" +
+                                    "<br/>" + "<span style=color:#000>Population</span>" + ":" + populationById.get(d.id)[0].y2011)
+                                break;
+                            case 2012:
+                                div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" +
+                                    "<br/>" + "<span style=color:#000>Population</span>" + ":" + populationById.get(d.id)[0].y2012)
+                                break;
+                            case 2013:
+                                div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" +
+                                    "<br/>" + "<span style=color:#000>Population</span>" + ":" + populationById.get(d.id)[0].y2013)
+                                break;
+                            }
+                        })
+                        .on("mouseout", function () {
+                            d3.select(this)
+                                .transition().duration(300)
+                                .style("opacity", 1);
+                            div.transition().duration(300)
+                                .style("opacity", 0);
+                        });
+                }
+            }
+
+            function drawGDPVisualization(error, world, GDPdata) {
+                svg.selectAll(".purpose").remove();
+                var color = d3.scale.linear()
+                    .domain([0, 10, 15, 20])
+                    .range(["#0ca454", "#ffa07a","#de1f2e"])
+                    .clamp(true)
+                    .interpolate(d3.interpolateHcl);
+
+                var GDPById = d3.nest()
+                    .key(function (d) {
+                        return d.id;
+                    })
+                    .sortValues(function (a, b) {
+                        return a.y2006 - b.y2006;
+                    })
+                    .map(GDPdata, d3.map);
+
+                var country = svg.insert("g", ".graticule")
+                    .attr("class", "country")
+                    .selectAll("path")
+                    .data(topojson.feature(world, world.objects.countries).features)
+                    .enter().append("path")
+                    .attr("d", path);
+
+                country.filter(function (d) {
+                        return GDPById.has(d.id);
+                    })
+                    .style("fill", function (d) {
+                    if(!GDPById.get(d.id)[0].y2006) return "#cccccc";
+                        return color(GDPById.get(d.id)[0].y2006);
+                    })
+                    .on("mouseover", function (d) {
+                        d3.select(this).transition().duration(300).style("opacity", 1);
+                        div.transition().duration(300)
+                            .style("opacity", 1)
+                        div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" +
+                                "<br/>" + "<span style=color:#000>GDP</span>" + ":" + GDPById.get(d.id)[0].y2006 + "%")
+                            .style("left", "65%")
+                            .style("top", "200px");
+                    })
+                    .on("mouseout", function () {
+                        d3.select(this)
+                            .transition().duration(300)
+                            .style("opacity", 1);
+                        div.transition().duration(300)
+                            .style("opacity", 0);
+                    });
+
+                d3.select("#nRadius").on("input", function () {
+                    updateGDPVis(GDPdata, +this.value);
+                });
+
+                function updateGDPVis(GDPdata, year) {
+
+                    d3.select("#nRadius-value").text(year);
+                    d3.select("#nRadius").property("value", year);
+
+                    country.filter(function (d) {
+                            return GDPById.has(d.id);
+                        })
+                        .style("fill", function (d) {
+                            switch (year) {
+                            case 2006:
+                                    if(!GDPById.get(d.id)[0].y2006) return "#cccccc";
+                                return color(GDPById.get(d.id)[0].y2006);
+                                break;
+                            case 2007:
+                                     if(!GDPById.get(d.id)[0].y2007) return "#cccccc";
+                                return color(GDPById.get(d.id)[0].y2007);
+                                break;
+                            case 2008:
+                                     if(!GDPById.get(d.id)[0].y2008) return "#cccccc";
+                                return color(GDPById.get(d.id)[0].y2008);
+                                break;
+                            case 2009:
+                                     if(!GDPById.get(d.id)[0].y2009) return "#cccccc";
+                                return color(GDPById.get(d.id)[0].y2009);
+                                break;
+                            case 2010:
+                                     if(!GDPById.get(d.id)[0].y2010) return "#cccccc";
+                                return color(GDPById.get(d.id)[0].y2010);
+                                break;
+                            case 2011:
+                                     if(!GDPById.get(d.id)[0].y2011) return "#cccccc";
+                                return color(GDPById.get(d.id)[0].y2011);
+                                break;
+                            case 2012:
+                                     if(!GDPById.get(d.id)[0].y2012) return "#cccccc";
+                                return color(GDPById.get(d.id)[0].y2012);
+                                break;
+                            case 2013:
+                                     if(!GDPById.get(d.id)[0].y2013) return "#cccccc";
+                                return color(GDPById.get(d.id)[0].y2013);
+                                break;
+                            }
+                        })
+                        .on("mouseover", function (d) {
+                            d3.select(this).transition().duration(300).style("opacity", 1);
+                            div.transition().duration(300)
+                                .style("opacity", 1)
+                                .style("left", "65%")
+                                .style("top", "200px");
+                            switch (year) {
+                            case 2006:
+                                div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" +
+                                    "<br/>" + "<span style=color:#000>% of GDP</span>" + ":" + GDPById.get(d.id)[0].y2006 + "%")
+                                break;
+                            case 2007:
+                                div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" +
+                                    "<br/>" + "<span style=color:#000>% of GDP</span>" + ":" + GDPById.get(d.id)[0].y2007 + "%")
+                                break;
+                            case 2008:
+                                div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" +
+                                    "<br/>" + "<span style=color:#000>% of GDP</span>" + ":" + GDPById.get(d.id)[0].y2008 + "%")
+                                break;
+                            case 2009:
+                                div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" +
+                                    "<br/>" + "<span style=color:#000>% of GDP</span>" + ":" + GDPById.get(d.id)[0].y2009 + "%")
+                                break;
+                            case 2010:
+                                div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" +
+                                    "<br/>" + "<span style=color:#000>% of GDP</span>" + ":" + GDPById.get(d.id)[0].y2010 + "%")
+                                break;
+                            case 2011:
+                                div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" +
+                                    "<br/>" + "<span style=color:#000>% of GDP</span>" + ":" + GDPById.get(d.id)[0].y2011 + "%")
+                                break;
+                            case 2012:
+                                div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" +
+                                    "<br/>" + "<span style=color:#000>% of GDP</span>" + ":" + GDPById.get(d.id)[0].y2012 + "%")
+                                break;
+                            case 2013:
+                                div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" +
+                                    "<br/>" + "<span style=color:#000>% of GDP</span>" + ":" + GDPById.get(d.id)[0].y2013 + "%")
+                                break;
+                            }
+                        })
+                        .on("mouseout", function () {
+                            d3.select(this)
+                                .transition().duration(300)
+                                .style("opacity", 1);
+                            div.transition().duration(300)
+                                .style("opacity", 0);
+                        });
+                }
+            }
+        }
+    </script>
+
+</body>
+
 </html>

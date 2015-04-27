@@ -6,17 +6,17 @@
 		"id": 32,
         "y2006": {
             "population": 212,
-            "vacation": "",
-            "visit_friends": "",
-            "business": "",
-            "education": ""
+            "vacation":null,
+            "visit_friends": null,
+            "business": null,
+            "education": null
         },
         "y2007": {
             "population": 212,
-            "vacation": "",
-            "visit_friends": "",
-            "business": "",
-            "education": ""
+            "vacation": null,
+            "visit_friends": null,
+            "business": null,
+            "education":null
         },
         "y2008": {
             "population": 318,
