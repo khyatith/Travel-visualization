@@ -159,7 +159,7 @@ input[type=range]:focus::-ms-fill-upper {
   <circle id="CountryGDP" cx="250" cy="50" r="30" />
   <text x="50" y="50" font-size="15px" fill="black" text-anchor="middle">Import</text>
   <text x="150" y="50" font-size="15px" fill="black" text-anchor="middle">Export</text>
-  <text x="250" y="50" font-size="15px" fill="black" text-anchor="middle">GDP</text>
+  <text x="250" y="50" font-size="15px" fill="black" text-anchor="middle">%ofGDP</text>
 </svg>
 <!-- purpose button -->
 <input type="button" value="Purpose" id="purposebutton">
@@ -633,35 +633,35 @@ d3.select("#purposebutton").on("click",function(){
 		switch(year){
 			case 2006:
 				div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>GDP</span>" + ":" +GDPById.get(d.id)[0].y2006 + "%")
+						"<br/>" + "<span style=color:#000>% of GDP</span>" + ":" +GDPById.get(d.id)[0].y2006 + "%")
 			break;
 			case 2007:
 				div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>GDP</span>" + ":" +GDPById.get(d.id)[0].y2007 + "%")						
+						"<br/>" + "<span style=color:#000>% of GDP</span>" + ":" +GDPById.get(d.id)[0].y2007 + "%")						
 			break;
 			case 2008:
 				div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>GDP</span>" + ":" +GDPById.get(d.id)[0].y2008 + "%")
+						"<br/>" + "<span style=color:#000>% of GDP</span>" + ":" +GDPById.get(d.id)[0].y2008 + "%")
 			break;
 			case 2009:
 				div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>GDP</span>" + ":" +GDPById.get(d.id)[0].y2009 + "%")
+						"<br/>" + "<span style=color:#000>% of GDP</span>" + ":" +GDPById.get(d.id)[0].y2009 + "%")
 			break;
 			case 2010:
 				div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>GDP</span>" + ":" +GDPById.get(d.id)[0].y2010 + "%") 
+						"<br/>" + "<span style=color:#000>% of GDP</span>" + ":" +GDPById.get(d.id)[0].y2010 + "%") 
 			break;
 			case 2011:
 				div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>GDP</span>" + ":" +GDPById.get(d.id)[0].y2011 + "%") 
+						"<br/>" + "<span style=color:#000>% of GDP</span>" + ":" +GDPById.get(d.id)[0].y2011 + "%") 
 			break;
 			case 2012:
 				div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>GDP</span>" + ":" +GDPById.get(d.id)[0].y2012 + "%")
+						"<br/>" + "<span style=color:#000>% of GDP</span>" + ":" +GDPById.get(d.id)[0].y2012 + "%")
 			break;
 			case 2013:
 				div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" + 
-						"<br/>" + "<span style=color:#000>GDP</span>" + ":" +GDPById.get(d.id)[0].y2013 + "%")
+						"<br/>" + "<span style=color:#000>% of GDP</span>" + ":" +GDPById.get(d.id)[0].y2013 + "%")
 			break;
 			}
 			})
