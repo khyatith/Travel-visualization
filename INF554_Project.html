@@ -160,9 +160,6 @@
         input[type=range]:focus::-ms-fill-upper {
             background: #ccc;
         }        
-        .legend {
-            margin-top: -100px;
-        }
     </style>
 </head>
 
@@ -185,18 +182,6 @@
 	<svg style="float:left" width="100" height="150" id="legendSvg">
 	</svg>
 </svg>
-    <svg style="float:right" width: "200" height: "150">
-        <image xlink:href="resources/images/vacation.png" x="50" y="0" height="25px" width="25px" />
-        <text x="80" y="15">Vacation</text>
-        <image xlink:href="resources/images/visit_friends.png" x="50" y="25" height="25px" width="25px" />
-        <text x="80" y="40">Visit friends</text>
-        <image xlink:href="resources/images/business.png" x="50" y="50" height="25px" width="25px" />
-        <text x="80" y="65">Business</text>
-        <image xlink:href="resources/images/education.png" x="50" y="75" height="25px" width="25px" />
-        <text x="80" y="90">Education</text>
-        <image xlink:href="resources/images/unknown.png" x="50" y="100" height="25px" width="25px" />
-        <text x="80" y="115">Unknown</text>
-    </svg>
     <input type="range" min="2006" max="2013" step="1" id="nRadius">
     <label for="nRadius" style="display: inline-block; width: 100px; text-align: right">
         <span id="nRadius-value">…</span>
@@ -261,8 +246,6 @@
         });
         
     function createPie() {
-        //alert("hello");
-        //'use strict';
         var dataset = [
           { label: 'Abulia', count: 10 }, 
           { label: 'Betelgeuse', count: 20 },
@@ -290,12 +273,12 @@
           .value(function(d) { return d.count; })
           .sort(null);
         var path = svg.selectAll('path')
-          .data(pie(dataset))
+          .data(pie(data))
           .enter()
           .append('path')
           .attr('d', arc)
           .attr('fill', function(d, i) { 
-            return color(d.data.label);
+            return color(d.y2006.population);
           });
       }
 
@@ -415,34 +398,7 @@ legend.append("text")
  .attr("x", 50)
  .attr("y", function(d, i){ return legendheight - (i*ls_h) - ls_h - 4;})
  .text(function(d, i){ return legend_labels[i]; });
-            var legend = svg.selectAll("g.legend")
-                .data(ext_color_domain)
-                .enter().append("g")
-                .attr("class", "legend");
-
-            var ls_w = 20,
-                ls_h = 20;
-
-            legend.append("rect")
-                .attr("x", 20)
-                .attr("y", function (d, i) {
-                    return height - (i * ls_h) - 2 * ls_h;
-                })
-                .attr("width", ls_w)
-                .attr("height", ls_h)
-                .style("fill", function (d, i) {
-                    return color(d);
-                })
-                .style("opacity", 0.8);
-
-            legend.append("text")
-                .attr("x", 50)
-                .attr("y", function (d, i) {
-                    return height - (i * ls_h) - ls_h - 4;
-                })
-                .text(function (d, i) {
-                    return legend_labels[i];
-                });
+            
             // may be we can use this for purpose !?? 
             d3.select("#purposebutton").on("click", function () {
                 svg.selectAll(".purpose").remove();
