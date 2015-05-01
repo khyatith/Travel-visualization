@@ -159,6 +159,9 @@
         
         input[type=range]:focus::-ms-fill-upper {
             background: #ccc;
+        }        
+        .legend {
+            margin-top: -100px;
         }
     </style>
 </head>
@@ -182,6 +185,18 @@
 	<svg style="float:left" width="100" height="150" id="legendSvg">
 	</svg>
 </svg>
+    <svg style="float:right" width: "200" height: "150">
+        <image xlink:href="resources/images/vacation.png" x="50" y="0" height="25px" width="25px" />
+        <text x="80" y="15">Vacation</text>
+        <image xlink:href="resources/images/visit_friends.png" x="50" y="25" height="25px" width="25px" />
+        <text x="80" y="40">Visit friends</text>
+        <image xlink:href="resources/images/business.png" x="50" y="50" height="25px" width="25px" />
+        <text x="80" y="65">Business</text>
+        <image xlink:href="resources/images/education.png" x="50" y="75" height="25px" width="25px" />
+        <text x="80" y="90">Education</text>
+        <image xlink:href="resources/images/unknown.png" x="50" y="100" height="25px" width="25px" />
+        <text x="80" y="115">Unknown</text>
+    </svg>
     <input type="range" min="2006" max="2013" step="1" id="nRadius">
     <label for="nRadius" style="display: inline-block; width: 100px; text-align: right">
         <span id="nRadius-value">…</span>
@@ -197,6 +212,8 @@
     </svg>
     <!-- purpose button -->
     <input type="button" value="Hide Purpose" id="purposebutton">
+    
+    <div id="chart"></div>
     <script>
         var width = 960,
             height = 500;
@@ -214,9 +231,7 @@
             .attr("width", width)
             .attr("height", height);
 
-        var div = d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 0);
+       
 
         var flag = {
 
@@ -244,25 +259,81 @@
                 .defer(d3.json, "final_json.json")
                 .await(ready);
         });
+        
+    function createPie() {
+        //alert("hello");
+        //'use strict';
+        var dataset = [
+          { label: 'Abulia', count: 10 }, 
+          { label: 'Betelgeuse', count: 20 },
+          { label: 'Cantaloupe', count: 30 },
+          { label: 'Dijkstra', count: 40 }
+        ];
+        var width = 100;
+        var height = 100;
+        var radius = Math.min(width, height) / 2;
+        var donutWidth = 10;                            // NEW
+        var color = d3.scale.category20b();
+        var svg = d3.select('#chart')
+          .append('svg')
+        .attr('class','donut')
+          .attr('width', width)
+          .attr('height', height)
+          .append('g')
+          .attr('transform', 'translate(' + (width / 2) + 
+            ',' + (height / 2) + ')');
+        var arc = d3.svg.arc()
+          .innerRadius(radius - donutWidth)             // NEW
+          .outerRadius(radius);
+          
+        var pie = d3.layout.pie()
+          .value(function(d) { return d.count; })
+          .sort(null);
+        var path = svg.selectAll('path')
+          .data(pie(dataset))
+          .enter()
+          .append('path')
+          .attr('d', arc)
+          .attr('fill', function(d, i) { 
+            return color(d.data.label);
+          });
+      }
+
         function ready(error, world, final) {
-		
-		var avg =(d3.min(final,function(d){return d.y2006.population}) + d3.max(final,function(d){return d.y2006.population})) / 2;
-		var avg2 = (d3.min(final,function(d){return d.y2006.population}) + d3.max(final,function(d){return d.y2006.population})) / 3;
-		var avg3 = (d3.min(final,function(d){return d.y2006.population}) + d3.max(final,function(d){return d.y2006.population})) / 4;
-		var avg4 = (d3.min(final,function(d){return d.y2006.population}) + d3.max(final,function(d){return d.y2006.population})) / 6;
-        var ext_color_domain = [d3.min(final, function (d) {
-                    return d.y2006.population;
-                }), avg4,avg3,avg2,avg,d3.max(final, function (d) {
-                    return d.y2006.population
-                })];
-         var legend_labels = ["lowest","","","","","highest"];
+
+            var avg = (d3.min(final, function (d) {
+                return d.y2006.population
+            }) + d3.max(final, function (d) {
+                return d.y2006.population
+            })) / 2;
+            var avg2 = (d3.min(final, function (d) {
+                return d.y2006.population
+            }) + d3.max(final, function (d) {
+                return d.y2006.population
+            })) / 3;
+            var avg3 = (d3.min(final, function (d) {
+                return d.y2006.population
+            }) + d3.max(final, function (d) {
+                return d.y2006.population
+            })) / 4;
+            var avg4 = (d3.min(final, function (d) {
+                return d.y2006.population
+            }) + d3.max(final, function (d) {
+                return d.y2006.population
+            })) / 6;
+            var ext_color_domain = [d3.min(final, function (d) {
+                return d.y2006.population;
+            }), avg4, avg3, avg2, avg, d3.max(final, function (d) {
+                return d.y2006.population
+            })];
+            var legend_labels = ["lowest", "", "", "", "", "highest"];
             var color = d3.scale.linear()
                 .domain([d3.min(final, function (d) {
                     return d.y2006.population;
-                }), avg,d3.max(final, function (d) {
+                }), avg, d3.max(final, function (d) {
                     return d.y2006.population
                 })])
-                .range(["#0ca454", "#ffa07a","#de1f2e"])
+                .range(["#0ca454", "#ffa07a", "#de1f2e"])
                 .clamp(true)
                 .interpolate(d3.interpolateHcl);
 
@@ -312,24 +383,11 @@
                 .attr("width", "30")
                 .attr("height", "30")
                 .on("mouseover", function (d) {
-                    d3.select(this).transition().duration(300).style("opacity", 1);
-                    div.transition().duration(300)
-                        .style("opacity", 1)
-                    div.html("<span style=color:#cc0000;font-size:20px>" + d.name + "</span>" +
-                            "<br/>" + "<span style=color:#000>Population</span>" + ":" + d.y2006.population +
-                            "<br/>" + "<span style=color:#000>Vacation</span>" + ":" + d.y2006.vacation + "%" +
-                            "<br/>" + "<span style=color:#000>Visit Friends</span>" + ":" + d.y2006.visit_friends + "%" +
-                            "<br/>" + "<span style=color:#000>Business</span>" + ":" + d.y2006.business + "%" +
-                            "<br/>" + "<span style=color:#000>Education</span>" + ":" + d.y2006.education + "%")
-                        .style("left", "65%")
-                        .style("top", "200px");
+                    createPie();
+                        
                 })
                 .on("mouseout", function () {
-                    d3.select(this)
-                        .transition().duration(300)
-                        .style("opacity", 0.8);
-                    div.transition().duration(300)
-                        .style("opacity", 0);
+                   d3.selectAll('.donut').remove();
                 });
             d3.select("#nRadius-value").text("2006");
             d3.select("#nRadius").property("value", "2006");
@@ -357,7 +415,34 @@ legend.append("text")
  .attr("x", 50)
  .attr("y", function(d, i){ return legendheight - (i*ls_h) - ls_h - 4;})
  .text(function(d, i){ return legend_labels[i]; });
- 
+            var legend = svg.selectAll("g.legend")
+                .data(ext_color_domain)
+                .enter().append("g")
+                .attr("class", "legend");
+
+            var ls_w = 20,
+                ls_h = 20;
+
+            legend.append("rect")
+                .attr("x", 20)
+                .attr("y", function (d, i) {
+                    return height - (i * ls_h) - 2 * ls_h;
+                })
+                .attr("width", ls_w)
+                .attr("height", ls_h)
+                .style("fill", function (d, i) {
+                    return color(d);
+                })
+                .style("opacity", 0.8);
+
+            legend.append("text")
+                .attr("x", 50)
+                .attr("y", function (d, i) {
+                    return height - (i * ls_h) - ls_h - 4;
+                })
+                .text(function (d, i) {
+                    return legend_labels[i];
+                });
             // may be we can use this for purpose !?? 
             d3.select("#purposebutton").on("click", function () {
                 svg.selectAll(".purpose").remove();
@@ -461,7 +546,7 @@ legend.append("text")
                 svg.selectAll(".purpose").remove();
                 var color = d3.scale.linear()
                     .domain([20, 10000, 100000])
-                    .range(["#0ca454", "#ffa07a","#de1f2e"])
+                    .range(["#0ca454", "#ffa07a", "#de1f2e"])
                     .clamp(true)
                     .interpolate(d3.interpolateHcl);
 
@@ -485,11 +570,11 @@ legend.append("text")
                         return populationById.has(d.id);
                     })
                     .style("fill", function (d) {
-                    if (populationById.get(d.id)[0].y2006 == null)
-                        return "#cccccc";
-                    else 
-                        return color(populationById.get(d.id)[0].y2006);
-                    
+                        if (populationById.get(d.id)[0].y2006 == null)
+                            return "#cccccc";
+                        else
+                            return color(populationById.get(d.id)[0].y2006);
+
                     })
                     .on("mouseover", function (d) {
                         d3.select(this).transition().duration(300).style("opacity", 1);
@@ -523,35 +608,51 @@ legend.append("text")
                         .style("fill", function (d) {
                             switch (year) {
                             case 2006:
-                                if(!populationById.get(d.id)[0].y2006 || populationById.get(d.id)[0].y2006==null) {return "#cccccc";}
+                                if (!populationById.get(d.id)[0].y2006 || populationById.get(d.id)[0].y2006 == null) {
+                                    return "#cccccc";
+                                }
                                 return color(populationById.get(d.id)[0].y2006);
                                 break;
                             case 2007:
-                                    if(!populationById.get(d.id)[0].y2007 || populationById.get(d.id)[0].y2007==null) {return "#cccccc";}
+                                if (!populationById.get(d.id)[0].y2007 || populationById.get(d.id)[0].y2007 == null) {
+                                    return "#cccccc";
+                                }
                                 return color(populationById.get(d.id)[0].y2007);
                                 break;
                             case 2008:
-                                    if(!populationById.get(d.id)[0].y2008 || populationById.get(d.id)[0].y2008==null) {return "#cccccc";}
+                                if (!populationById.get(d.id)[0].y2008 || populationById.get(d.id)[0].y2008 == null) {
+                                    return "#cccccc";
+                                }
                                 return color(populationById.get(d.id)[0].y2008);
                                 break;
                             case 2009:
-                                    if(!populationById.get(d.id)[0].y2009 || populationById.get(d.id)[0].y2009==null) {return "#cccccc";}
+                                if (!populationById.get(d.id)[0].y2009 || populationById.get(d.id)[0].y2009 == null) {
+                                    return "#cccccc";
+                                }
                                 return color(populationById.get(d.id)[0].y2009);
                                 break;
                             case 2010:
-                                    if(!populationById.get(d.id)[0].y2010 || populationById.get(d.id)[0].y2010==null) {return "#cccccc";}
+                                if (!populationById.get(d.id)[0].y2010 || populationById.get(d.id)[0].y2010 == null) {
+                                    return "#cccccc";
+                                }
                                 return color(populationById.get(d.id)[0].y2010);
                                 break;
                             case 2011:
-                                    if(!populationById.get(d.id)[0].y2011 || populationById.get(d.id)[0].y2011==null) {return "#cccccc";}
+                                if (!populationById.get(d.id)[0].y2011 || populationById.get(d.id)[0].y2011 == null) {
+                                    return "#cccccc";
+                                }
                                 return color(populationById.get(d.id)[0].y2011);
                                 break;
                             case 2012:
-                                    if(!populationById.get(d.id)[0].y2012 || populationById.get(d.id)[0].y2012==null) {return "#cccccc";}
+                                if (!populationById.get(d.id)[0].y2012 || populationById.get(d.id)[0].y2012 == null) {
+                                    return "#cccccc";
+                                }
                                 return color(populationById.get(d.id)[0].y2012);
                                 break;
                             case 2013:
-                                    if(!populationById.get(d.id)[0].y2013) {return "#cccccc";}
+                                if (!populationById.get(d.id)[0].y2013) {
+                                    return "#cccccc";
+                                }
                                 return color(populationById.get(d.id)[0].y2013);
                                 break;
                             }
@@ -611,7 +712,7 @@ legend.append("text")
                 svg.selectAll(".purpose").remove();
                 var color = d3.scale.linear()
                     .domain([0, 10, 15, 20])
-                    .range(["#0ca454", "#ffa07a","#de1f2e"])
+                    .range(["#0ca454", "#ffa07a", "#de1f2e"])
                     .clamp(true)
                     .interpolate(d3.interpolateHcl);
 
@@ -635,24 +736,26 @@ legend.append("text")
                         return GDPById.has(d.id);
                     })
                     .style("fill", function (d) {
-                    if(!GDPById.get(d.id)[0].y2006) return "#cccccc";
+                        if (!GDPById.get(d.id)[0].y2006) return "#cccccc";
                         return color(GDPById.get(d.id)[0].y2006);
                     })
                     .on("mouseover", function (d) {
-                        d3.select(this).transition().duration(300).style("opacity", 1);
+                        /*d3.select(this).transition().duration(300).style("opacity", 1);
                         div.transition().duration(300)
                             .style("opacity", 1)
                         div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" +
                                 "<br/>" + "<span style=color:#000>GDP</span>" + ":" + GDPById.get(d.id)[0].y2006 + "%")
                             .style("left", "65%")
-                            .style("top", "200px");
+                            .style("top", "200px");*/
+                    createPie();
                     })
                     .on("mouseout", function () {
-                        d3.select(this)
+                    d3.selectAll('.donut').remove();
+                        /*d3.select(this)
                             .transition().duration(300)
                             .style("opacity", 1);
                         div.transition().duration(300)
-                            .style("opacity", 0);
+                            .style("opacity", 0);*/
                     });
 
                 d3.select("#nRadius").on("input", function () {
@@ -670,35 +773,35 @@ legend.append("text")
                         .style("fill", function (d) {
                             switch (year) {
                             case 2006:
-                                    if(!GDPById.get(d.id)[0].y2006) return "#cccccc";
+                                if (!GDPById.get(d.id)[0].y2006) return "#cccccc";
                                 return color(GDPById.get(d.id)[0].y2006);
                                 break;
                             case 2007:
-                                     if(!GDPById.get(d.id)[0].y2007) return "#cccccc";
+                                if (!GDPById.get(d.id)[0].y2007) return "#cccccc";
                                 return color(GDPById.get(d.id)[0].y2007);
                                 break;
                             case 2008:
-                                     if(!GDPById.get(d.id)[0].y2008) return "#cccccc";
+                                if (!GDPById.get(d.id)[0].y2008) return "#cccccc";
                                 return color(GDPById.get(d.id)[0].y2008);
                                 break;
                             case 2009:
-                                     if(!GDPById.get(d.id)[0].y2009) return "#cccccc";
+                                if (!GDPById.get(d.id)[0].y2009) return "#cccccc";
                                 return color(GDPById.get(d.id)[0].y2009);
                                 break;
                             case 2010:
-                                     if(!GDPById.get(d.id)[0].y2010) return "#cccccc";
+                                if (!GDPById.get(d.id)[0].y2010) return "#cccccc";
                                 return color(GDPById.get(d.id)[0].y2010);
                                 break;
                             case 2011:
-                                     if(!GDPById.get(d.id)[0].y2011) return "#cccccc";
+                                if (!GDPById.get(d.id)[0].y2011) return "#cccccc";
                                 return color(GDPById.get(d.id)[0].y2011);
                                 break;
                             case 2012:
-                                     if(!GDPById.get(d.id)[0].y2012) return "#cccccc";
+                                if (!GDPById.get(d.id)[0].y2012) return "#cccccc";
                                 return color(GDPById.get(d.id)[0].y2012);
                                 break;
                             case 2013:
-                                     if(!GDPById.get(d.id)[0].y2013) return "#cccccc";
+                                if (!GDPById.get(d.id)[0].y2013) return "#cccccc";
                                 return color(GDPById.get(d.id)[0].y2013);
                                 break;
                             }
