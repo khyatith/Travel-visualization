@@ -80,7 +80,7 @@
             border-radius: 3px;
         }
         
-        input[type=range]::-webkit-slider-thumb {
+       input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
             border: none;
             height: 16px;
@@ -159,7 +159,11 @@
         
         input[type=range]:focus::-ms-fill-upper {
             background: #ccc;
-        }        
+        }   
+		.donut {
+		margin-top: 5%;
+		float:right;
+		}
     </style>
 </head>
 
@@ -173,14 +177,16 @@
 *"Export" shows information for U.S. citizens travel to the world. <br/>
 *%ofGDP shows tourism contributes to GDP.<br/> *population data represents hundred thousand </h5>
 <svg style="float:right" width="400" height="150">
-   <svg style = "float:right" width="200" height="150">
-    <image xlink:href="resources/images/vacation.png" x="100" y="0" height="25px" width="25px"/><text x="130" y="15">Vacation</text>
-	<image xlink:href="resources/images/visit_friends.png" x="100" y="25" height="25px" width="25px"/><text x="130" y="40">Visit friends</text>
-	<image xlink:href="resources/images/business.png" x="100" y="50" height="25px" width="25px"/><text x="130" y="65">Business</text>
-	<image xlink:href="resources/images/education.png" x="100" y="75" height="25px" width="25px"/><text x="130" y="90">Education</text>
+<rect width="300" height="150" style="fill:rgb(255,255,255);stroke-width:3;stroke:rgb(0,0,0)" />
+   <svg style = "float:right" width="270" height="150">
+    <image xlink:href="resources/images/vacation.png" x="150" y="10" height="25px" width="25px"/><text x="180" y="30">Vacation</text>
+	<image xlink:href="resources/images/visit_friends.png" x="150" y="40" height="25px" width="25px"/><text x="180" y="60">Visit friends</text>
+	<image xlink:href="resources/images/business.png" x="150" y="70" height="25px" width="25px"/><text x="180" y="90">Business</text>
+	<image xlink:href="resources/images/education.png" x="150" y="100" height="25px" width="25px"/><text x="180" y="120">Education</text>
 </svg>
-	<svg style="float:left" width="100" height="150" id="legendSvg">
+	<svg width="100" height="150" id="legendSvg">
 	</svg>
+</rect>
 </svg>
     <input type="range" min="2006" max="2013" step="1" id="nRadius">
     <label for="nRadius" style="display: inline-block; width: 100px; text-align: right">
@@ -195,18 +201,13 @@
         <text x="150" y="50" font-size="15px" fill="black" text-anchor="middle">Export</text>
         <text x="250" y="50" font-size="15px" fill="black" text-anchor="middle">%ofGDP</text>
     </svg>
-    <!-- purpose button -->
-    <input type="button" value="Hide Purpose" id="purposebutton">
-    
-    <div id="chart"></div>
     <script>
         var width = 960,
             height = 500;
 		var ls_w = 20, ls_h = 20;
 		var legendheight = 150;
-        var projection = d3.geo.naturalEarth()
-            .scale(167)
-            .translate([width / 2, height / 2])
+        var projection = d3.geo.mercator()
+            .translate([480, 300])
             .precision(.1);
 
         var path = d3.geo.path()
@@ -214,9 +215,12 @@
 
         var svg = d3.select("body").append("svg")
             .attr("width", width)
-            .attr("height", height);
+            .attr("height", height)
+			.style("border","1px solid #ccc");
 
-       
+        var div = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
 
         var flag = {
 
@@ -245,21 +249,28 @@
                 .await(ready);
         });
         
-    function createPie() {
-        var dataset = [
-          { label: 'Abulia', count: 10 }, 
-          { label: 'Betelgeuse', count: 20 },
-          { label: 'Cantaloupe', count: 30 },
-          { label: 'Dijkstra', count: 40 }
-        ];
-        var width = 100;
-        var height = 100;
+    function createPie(population,vacation,visit_friends,business,education) {
+		
+		var dataset = [
+		{label:'Vacation', count:vacation},
+		{label:'Visit Friends', count:visit_friends},
+		{label:'Business', count:business},
+		{label:'Education', count:education}
+		];
+		
+		var margin = {top: 40, right: 10, bottom: 40, left: 10};
+        var width =  300 - margin.left - margin.right;
+        var height =  300- margin.top - margin.bottom;
         var radius = Math.min(width, height) / 2;
-        var donutWidth = 10;                            // NEW
-        var color = d3.scale.category20b();
-        var svg = d3.select('#chart')
-          .append('svg')
-        .attr('class','donut')
+        var donutWidth = 30;                            // NEW
+        var color = d3.scale.category10();
+		var legendRectSize=18;
+        var legendSpacing=4;
+        var labelr=radius+30;
+
+        var svgpie = d3.select("body")
+			.append("svg")
+            .attr('class','donut')
           .attr('width', width)
           .attr('height', height)
           .append('g')
@@ -272,15 +283,52 @@
         var pie = d3.layout.pie()
           .value(function(d) { return d.count; })
           .sort(null);
-        var path = svg.selectAll('path')
-          .data(pie(data))
+		  
+        var path = svgpie.selectAll('path')
+          .data(pie(dataset))
           .enter()
           .append('path')
           .attr('d', arc)
           .attr('fill', function(d, i) { 
-            return color(d.y2006.population);
-          });
+            return color(d.data.label);
+          })
+		  .transition()
+      		  .ease("exp")
+      		  .duration(2000)
+      		  .attrTween("d",tweenPie);
+			
+		  var pielegend=svgpie.selectAll(".pielegend")
+      				  .data(color.domain())
+      				  .enter()
+      				  .append("g")
+      				  .attr("class","pielegend")
+      				  .attr("transform",function(d,i){
+      				  	var height = legendRectSize + legendSpacing;
+      				  	var offset = height * color.domain().length /2;
+      				  	var horz = -3 * legendRectSize;
+      				  	var vert = i * height - offset;
+      				  	return "translate (" + horz + " , " + vert + ")";
+      				  });
+      	pielegend.append("rect")
+      		  .attr("width",legendRectSize)
+      		  .attr("height",legendRectSize)
+      		  .attr("fill",color)
+      		  .attr("stroke",color);
+
+      	pielegend.append("text")
+      		  .attr("x",legendRectSize+legendSpacing)
+      		  .attr("y",legendRectSize-legendSpacing)
+      		  .text(function(d){
+      		  	return d;
+      		  });
+		  function tweenPie(b){
+      		var i = d3.interpolate({startAngle: 1.1 * Math.PI, 
+      			endAngle: 1.1*Math.PI},b);
+      		return function(t){
+      			return arc(i(t));
+      		};
       }
+	  }
 
         function ready(error, world, final) {
 
@@ -366,7 +414,7 @@
                 .attr("width", "30")
                 .attr("height", "30")
                 .on("mouseover", function (d) {
-                    createPie();
+                    createPie(d.y2006.population,d.y2006.vacation,d.y2006.visit_friends,d.y2006.business,d.y2006.education);
                         
                 })
                 .on("mouseout", function () {
@@ -398,11 +446,6 @@ legend.append("text")
  .attr("x", 50)
  .attr("y", function(d, i){ return legendheight - (i*ls_h) - ls_h - 4;})
  .text(function(d, i){ return legend_labels[i]; });
-            
-            // may be we can use this for purpose !?? 
-            d3.select("#purposebutton").on("click", function () {
-                svg.selectAll(".purpose").remove();
-            });
 
             function updatevis(data, year) {
                 country.filter(function (d) {
@@ -539,7 +582,7 @@ legend.append("text")
                         div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" +
                                 "<br/>" + "<span style=color:#000>Population</span>" + ":" + populationById.get(d.id)[0].y2006)
                             .style("left", "65%")
-                            .style("top", "200px");
+                            .style("top", "400px");
                     })
                     .on("mouseout", function () {
                         d3.select(this)
@@ -618,7 +661,7 @@ legend.append("text")
                             div.transition().duration(300)
                                 .style("opacity", 1)
                                 .style("left", "65%")
-                                .style("top", "200px");
+                                .style("top", "400px");
                             switch (year) {
                             case 2006:
                                 div.html("<span style=color:#cc0000;font-size:20px>" + populationById.get(d.id)[0].Country + "</span>" +
@@ -696,22 +739,21 @@ legend.append("text")
                         return color(GDPById.get(d.id)[0].y2006);
                     })
                     .on("mouseover", function (d) {
-                        /*d3.select(this).transition().duration(300).style("opacity", 1);
+                        d3.select(this).transition().duration(300).style("opacity", 1);
                         div.transition().duration(300)
                             .style("opacity", 1)
                         div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" +
                                 "<br/>" + "<span style=color:#000>GDP</span>" + ":" + GDPById.get(d.id)[0].y2006 + "%")
                             .style("left", "65%")
-                            .style("top", "200px");*/
-                    createPie();
+                            .style("top", "400px");
                     })
                     .on("mouseout", function () {
                     d3.selectAll('.donut').remove();
-                        /*d3.select(this)
+                        d3.select(this)
                             .transition().duration(300)
                             .style("opacity", 1);
                         div.transition().duration(300)
-                            .style("opacity", 0);*/
+                            .style("opacity", 0);
                     });
 
                 d3.select("#nRadius").on("input", function () {
@@ -767,7 +809,7 @@ legend.append("text")
                             div.transition().duration(300)
                                 .style("opacity", 1)
                                 .style("left", "65%")
-                                .style("top", "200px");
+                                .style("top", "400px");
                             switch (year) {
                             case 2006:
                                 div.html("<span style=color:#cc0000;font-size:20px>" + GDPById.get(d.id)[0].Country + "</span>" +
