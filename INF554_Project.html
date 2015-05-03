@@ -200,7 +200,7 @@
         }
         
         .donut {
-            margin-top: 5%;
+			margin-top:-25%;
             float: right;
         }
     </style>
@@ -252,14 +252,6 @@
         <button class="button gray" id="USExport">USExport</button>
         <input type="button" value="%ofGDP" id="CountryGDP" class="button gray">
     </div>
-    <!--<svg height="65" width="300" id="mainButton">
-        <rect id="USImport" x="0" y="50" width="20" height="10" />
-        <rect id="USExport" x="70" y="50" width="20" height="10"  />
-        <rect id="CountryGDP" x="90" y="50" width="20" height="10" />
-        <text x="50" y="50" font-size="15px" fill="black" text-anchor="middle">Import</text>
-        <text x="150" y="50" font-size="15px" fill="black" text-anchor="middle">Export</text>
-        <text x="250" y="50" font-size="15px" fill="black" text-anchor="middle">%ofGDP</text>
-    </svg>-->
     <script>
         var width = 780,
             height = 460;
@@ -315,19 +307,19 @@
 
             var dataset = [
                 {
-                    label: 'Vacation',
+                    "label": 'Vacation',
                     count: vacation
                 },
                 {
-                    label: 'Visit Friends',
+                    "label": 'Visit Friends',
                     count: visit_friends
                 },
                 {
-                    label: 'Business',
+                    "label": 'Business',
                     count: business
                 },
                 {
-                    label: 'Education',
+                    "label": 'Education',
                     count: education
                 }
   ];
@@ -349,6 +341,7 @@
 
             var svgpie = d3.select("body")
                 .append("svg")
+				.data([dataset])
                 .attr('class', 'donut')
                 .attr('width', width)
                 .attr('height', height)
@@ -365,18 +358,32 @@
                 })
                 .sort(null);
 
-            var path = svgpie.selectAll('path')
+            var path = svgpie.selectAll('g.arc')
                 .data(pie(dataset))
                 .enter()
-                .append('path')
-                .attr('d', arc)
-                .attr('fill', function (d, i) {
-                    return color(d.data.label);
-                })
-                .transition()
-                .ease("exp")
-                .duration(2000)
-                .attrTween("d", tweenPie);
+                .append('g')
+                .attr('class', 'arc');
+			
+			path.append("path")
+            .attr("fill", function(d, i) { return color(d.data.label);})
+            .attr("d", arc)
+            .transition()
+      		  .ease("exp")
+      		  .duration(1000)
+      		  .attrTween("d",tweenPie);
+			 
+			path.append("text")
+			.transition()
+			.duration(1000)
+			.attrTween("d",tweenPie)
+            .attr("transform",function(d){
+              return "translate("+arc.centroid(d)+")";
+            })
+			.text(function(d,i){
+              return d.value + "%";
+            })
+			.attr("text-anchor", "middle")
+            .attr("fill","#000000");
 
             var pielegend = svgpie.selectAll(".pielegend")
                 .data(color.domain())
